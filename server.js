@@ -194,6 +194,6 @@ app.get('/api/admin/export.csv', requireAdmin, (_req, res) => {
 app.get('/admin', (_req, res) => res.sendFile(path.join(FRONTEND, 'admin.html')));
 app.get('/privacy', (_req, res) => res.sendFile(path.join(FRONTEND, 'privacy.html')));
 app.get('/terms', (_req, res) => res.sendFile(path.join(FRONTEND, 'terms.html')));
-app.get('*', (_req, res) => res.sendFile(path.join(FRONTEND, 'index.html')));
+
 
 app.listen(PORT, () => console.log(`Credora running at http://localhost:${PORT}`));
