@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
-const FRONTEND = path.join(__dirname, '../frontend');
+const FRONTEND = __dirname;
 const db = new Database(path.join(__dirname, 'loanleads.db'));
 
 db.pragma('journal_mode = WAL');
