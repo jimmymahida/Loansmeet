@@ -1,4 +1,4 @@
-# Credora — Production Setup
+# LOANSMEET — Production Setup
 
 The application code is bundled here. External account creation cannot be performed from a ZIP.
 

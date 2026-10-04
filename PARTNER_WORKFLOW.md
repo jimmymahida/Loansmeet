@@ -1,6 +1,6 @@
 # DSA / Lending Partner Workflow
 
-Credora is positioned as a lead-generation platform, not a lender.
+LOANSMEET is positioned as a lead-generation platform, not a lender.
 
 Suggested operating flow:
 1. Customer submits an enquiry with consent.

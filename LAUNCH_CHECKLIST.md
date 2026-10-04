@@ -1,4 +1,4 @@
-# Credora Launch Checklist
+# LOANSMEET Launch Checklist
 
 ## Product
 - [x] Premium homepage

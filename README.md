@@ -1,9 +1,9 @@
-# Credora — All-in-One Project
+# LOANSMEET — All-in-One Project
 
-This is the consolidated Credora project. It keeps the working customer enquiry flow and combines the homepage, lead database, admin dashboard, legal pages, security headers, and launch documentation in one folder.
+This is the consolidated LOANSMEET project. It keeps the working customer enquiry flow and combines the homepage, lead database, admin dashboard, legal pages, security headers, and launch documentation in one folder.
 
 ## Included
-- Premium responsive Credora homepage
+- Premium responsive LOANSMEET homepage
 - Loan categories and enquiry form
 - Consent-based lead capture
 - SQLite lead database
