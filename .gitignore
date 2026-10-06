@@ -1,5 +1,6 @@
-.env
-*.db
 node_modules/
-
+backend/loanleads.db-shm
+backend/loanleads.db-wal
 backend/uploads/
+.env
+.DS_Store
