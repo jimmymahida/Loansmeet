@@ -82,6 +82,31 @@ app.use(rateLimit); app.use(express.json({limit:'100kb'})); app.use(express.urle
 
 app.get('/api/health',(_req,res)=>res.json({ok:true,service:'loansmeet'}));
 app.get('/api/loan-types',(_req,res)=>res.json(loanTypes));
+app.post('/api/calculate-emi',(req,res)=>{
+ const b=req.body||{};
+ const principal=cleanNumber(b.amount);
+ const annualRate=Number(b.rate);
+ const months=cleanNumber(b.tenure);
+
+ if(!principal || !Number.isFinite(annualRate) || !months || principal<=0 || annualRate<0 || months<=0){
+   return res.status(400).json({error:'Please provide valid EMI details.'});
+ }
+
+ const monthlyRate=annualRate/12/100;
+ const emi=monthlyRate===0
+   ? principal/months
+   : principal*monthlyRate*Math.pow(1+monthlyRate,months)/(Math.pow(1+monthlyRate,months)-1);
+
+ const totalPayment=emi*months;
+ const totalInterest=totalPayment-principal;
+
+ res.json({
+   ok:true,
+   emi:Math.round(emi),
+   totalPayment:Math.round(totalPayment),
+   totalInterest:Math.round(totalInterest)
+ });
+});
 app.post('/api/leads',(req,res)=>{
  const b=req.body||{}, name=cleanText(b.name,120), mobile=cleanText(b.mobile,15), email=cleanText(b.email,180), city=cleanText(b.city,120), loanType=cleanText(b.loanType,80);
  const loanAmount=cleanNumber(b.loanAmount), income=cleanNumber(b.monthlyIncome), employment=cleanText(b.employmentType,50), emi=Math.max(0,cleanNumber(b.existingEmi)), cibil=cleanText(b.cibilRange,30), consent=b.consent===true;
