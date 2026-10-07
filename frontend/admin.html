@@ -1,4 +1,63 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LOANSMEET — Admin</title><link rel="stylesheet" href="/styles.css"><style>.top .wrap{max-width:1450px}.login h1{margin-top:0}.error{display:none}.error:not(:empty){display:block}.close{border:1px solid rgba(77,150,235,.2);background:#081a36;color:#fff;padding:8px 12px;border-radius:10px}</style><link rel="stylesheet" href="/styles.css?v=reference-final"></head><body><header class="top"><div class="wrap" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:15px"><img src="/logo.svg" class="logo" alt="LOANSMEET"><div><a href="/" style="margin-right:12px;color:#9eb5d7;font-size:12px">View site</a><button id="logout">Logout</button></div></div></header><main class="wrap">
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LOANSMEET — Admin</title><link rel="stylesheet" href="/styles.css"><style>.top .wrap{max-width:1450px}.login h1{margin-top:0}.error{display:none}.error:not(:empty){display:block}.close{border:1px solid rgba(77,150,235,.2);background:#081a36;color:#fff;padding:8px 12px;border-radius:10px}</style><link rel="stylesheet" href="/styles.css?v=reference-final">
+<style id="loansmeet-admin-command-center">
+:root{
+  --admin-bg:#020817;
+  --admin-panel:#07152d;
+  --admin-panel-2:#0a1d3b;
+  --admin-line:rgba(71,180,255,.18);
+  --admin-cyan:#38d9ff;
+  --admin-blue:#398cff;
+  --admin-purple:#8a5cff;
+  --admin-text:#f5f8ff;
+  --admin-muted:#7891b7;
+}
+body:has(#dashView){background:
+  radial-gradient(circle at 78% 0%,rgba(99,67,255,.16),transparent 28%),
+  radial-gradient(circle at 12% 30%,rgba(0,205,255,.08),transparent 24%),
+  linear-gradient(180deg,#020817 0%,#031027 55%,#020817 100%);
+}a
+body:has(#dashView)::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(70,154,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(70,154,255,.09) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,black,transparent 92%);z-index:-1}
+.top{height:76px!important;background:rgba(2,8,24,.82)!important;border-bottom:1px solid rgba(65,180,255,.16)!important;box-shadow:0 12px 50px rgba(0,0,0,.18)}
+.top .wrap{padding:0 8px}
+.top .logo{filter:drop-shadow(0 0 12px rgba(62,196,255,.22))}
+#dashView{padding:24px 0 70px;display:grid;grid-template-columns:232px minmax(0,1fr);gap:20px;position:relative}
+#dashView>.row{grid-column:1/-1;min-height:74px;padding:0 6px 4px}
+#dashView>.row h1{font-size:32px;letter-spacing:-.035em;background:linear-gradient(100deg,#fff,#a9eaff 55%,#a87cff);-webkit-background-clip:text;color:transparent}
+#authMeta{padding:9px 12px;border:1px solid var(--admin-line);border-radius:12px;background:rgba(8,23,49,.68)}
+.navtabs{grid-column:1;grid-row:2;align-self:start;display:flex;flex-direction:column;gap:7px;margin:0;padding:14px 10px;position:sticky;top:94px;max-height:calc(100vh - 115px);overflow:auto;border:1px solid rgba(67,160,255,.15);border-radius:22px;background:linear-gradient(180deg,rgba(5,18,42,.94),rgba(3,12,29,.9));box-shadow:0 25px 70px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.025)}
+.navtabs:before{content:"LOANSMEET  •  COMMAND";padding:7px 9px 12px;color:#5fbfff;font-size:9px;font-weight:900;letter-spacing:.16em}
+.navtabs button{width:100%;text-align:left;display:flex;align-items:center;gap:10px;min-height:43px;padding:10px 12px!important;border-radius:13px!important;border:1px solid transparent!important;background:transparent!important;color:#7f98bd!important;font-weight:800;transition:.2s ease}
+.navtabs button:before{width:22px;height:22px;display:grid;place-items:center;border-radius:8px;background:rgba(65,150,255,.07);border:1px solid rgba(79,163,255,.1);font-size:11px;color:#75bfff}
+.navtabs button:nth-child(1):before{content:"⌂"}.navtabs button:nth-child(2):before{content:"◉"}.navtabs button:nth-child(3):before{content:"♙"}.navtabs button:nth-child(4):before{content:"₹"}.navtabs button:nth-child(5):before{content:"?"}.navtabs button:nth-child(6):before{content:"▣"}.navtabs button:nth-child(7):before{content:"✦"}.navtabs button:nth-child(8):before{content:"▤"}.navtabs button:nth-child(9):before{content:"✎"}.navtabs button:nth-child(10):before{content:"◈"}.navtabs button:nth-child(11):before{content:"≡"}
+.navtabs button:hover{color:#fff!important;background:rgba(53,151,255,.08)!important;border-color:rgba(70,170,255,.12)!important;transform:translateX(2px)}
+.navtabs button.active{color:#fff!important;background:linear-gradient(100deg,rgba(45,167,255,.18),rgba(131,79,255,.18))!important;border-color:rgba(73,192,255,.27)!important;box-shadow:0 0 28px rgba(45,137,255,.08),inset 3px 0 0 #39cfff}
+.navtabs button.active:before{background:linear-gradient(135deg,#2ecfff,#795cff);color:#fff;border-color:transparent;box-shadow:0 0 18px rgba(75,152,255,.3)}
+#dashView>.panel{grid-column:2;grid-row:2;min-width:0}
+#dashView>.panel.active{animation:adminIn .28s ease both}
+@keyframes adminIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+#dashboard .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#dashboard .stat{min-height:104px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(10,29,62,.96),rgba(4,15,34,.95));border-color:rgba(66,164,255,.2);box-shadow:0 15px 45px rgba(0,0,0,.18)}
+#dashboard .stat:after{content:"";position:absolute;width:100px;height:100px;right:-40px;top:-45px;background:radial-gradient(circle,rgba(74,199,255,.2),transparent 68%)}
+#dashboard .stat:nth-child(2):after,#dashboard .stat:nth-child(5):after{background:radial-gradient(circle,rgba(140,89,255,.2),transparent 68%)}
+#dashboard .stat b{font-size:27px;background:linear-gradient(100deg,#fff,#77dcff,#9e78ff);-webkit-background-clip:text;color:transparent}
+#dashboard .card,#smart .card,#products .card,#content .card{background:linear-gradient(145deg,rgba(8,23,49,.94),rgba(3,13,30,.94));border-color:rgba(68,159,255,.18);box-shadow:0 18px 65px rgba(0,0,0,.18)}
+#dashboard .card h3,#smart h3,#products h3,#content h3{font-size:17px;letter-spacing:-.01em}
+#summary{min-height:150px;display:grid;align-items:center}
+#summary .chart{height:210px}
+.panel .toolbar{padding:13px;border:1px solid rgba(67,158,255,.13);border-radius:17px;background:rgba(3,13,31,.6)}
+.panel .tablewrap{background:rgba(3,12,28,.55);border-color:rgba(70,160,255,.16);box-shadow:0 15px 55px rgba(0,0,0,.15)}
+.panel .table th{background:#071a37;color:#9fc4eb}
+.panel .table td{background:rgba(4,15,33,.45)}
+.panel .table tr:hover td{background:rgba(35,112,188,.08)}
+.panel .item{background:rgba(6,19,40,.62);border:1px solid rgba(69,153,238,.12);border-radius:14px;padding:13px}
+#loginView{margin:100px auto;max-width:480px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(8,26,55,.96),rgba(3,12,29,.96));border-color:rgba(65,184,255,.25);box-shadow:0 30px 100px rgba(0,0,0,.4),0 0 80px rgba(60,95,255,.08)}
+#loginView:before{content:"";position:absolute;width:260px;height:260px;right:-120px;top:-120px;border-radius:50%;background:radial-gradient(circle,rgba(123,74,255,.28),transparent 68%)}
+#loginView h1{font-size:34px;background:linear-gradient(100deg,#fff,#59d8ff,#9a67ff);-webkit-background-clip:text;color:transparent}
+#logout{border:1px solid rgba(255,104,143,.2)!important;background:rgba(255,70,110,.06)!important;color:#ffb3c8!important}
+@media(max-width:980px){#dashView{grid-template-columns:1fr}.navtabs{grid-column:1;grid-row:auto;position:relative;top:auto;flex-direction:row;overflow:auto;max-height:none;padding:8px}.navtabs:before{display:none}.navtabs button{width:auto;min-width:max-content}.navtabs button:hover{transform:none}#dashView>.panel{grid-column:1;grid-row:auto}#dashboard .stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){#dashView{padding-top:14px}.top{height:64px!important}#dashView>.row h1{font-size:26px}#dashboard .stats{grid-template-columns:1fr}.navtabs{border-radius:16px}.navtabs button{min-height:38px;padding:8px 10px!important}.panel .toolbar{grid-template-columns:1fr!important}.top .wrap>div{display:flex;align-items:center;gap:7px}.top .wrap a{display:none}}
+</style>
+</head><body><header class="top"><div class="wrap" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:15px"><img src="/logo.svg" class="logo" alt="LOANSMEET"><div><a href="/" style="margin-right:12px;color:#9eb5d7;font-size:12px">View site</a><button id="logout">Logout</button></div></div></header><main class="wrap">
 <section id="loginView" class="login card"><h1>LOANSMEET Admin</h1><p class="muted">Leads, partners, payouts and support.</p><form id="loginForm"><div class="field"><label>Username</label><input name="username" autocomplete="username" required></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required></div><div class="field" id="twoFactorField" style="display:none"><label>Second-factor code</label><input name="secondFactor" inputmode="numeric" autocomplete="one-time-code"></div><button class="primary btn">Sign in</button><div id="loginError" class="error"></div></form></section>
 <section id="dashView" class="dash" style="display:none"><div class="row"><div><h1 style="margin:0 0 5px">Admin Dashboard</h1><div class="muted">LOANSMEET operations centre</div></div><div class="muted" id="authMeta"></div></div><div class="navtabs"><button data-tab="dashboard" class="active">Dashboard</button><button data-tab="leads">Leads</button><button data-tab="dsas">DSA Management</button><button data-tab="payouts">Payouts</button><button data-tab="tickets">Support Tickets</button><button data-tab="applications">Applications</button><button data-tab="smart">Smart & Analytics</button><button data-tab="products">Loan Products</button><button data-tab="content">CMS</button><button data-tab="notifications">Notifications</button><button data-tab="audit">Activity Logs</button></div>
 <section class="panel active" id="dashboard"><div class="stats" id="stats"></div><div class="card" style="margin-top:15px"><h3>Workflow</h3><p class="muted" style="font-size:12px">New → Contacted → Processing → Approved → Disbursed / Rejected → Closed</p><div id="summary"></div></div></section>
