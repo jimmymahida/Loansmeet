@@ -1,30 +1,155 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LOANSMEET — Your loan journey, in one place</title><meta name="description" content="LOANSMEET helps you explore loan options, estimate EMI, apply online and track your application with guided assistance."><meta name="robots" content="index,follow"><link rel="canonical" href="/"><link rel="stylesheet" href="/styles.css"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#07110f"></head><body>
-<header class="nav"><div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:18px"><a class="brand" href="#top"><img src="/logo.svg" alt="LOANSMEET"></a><nav class="navlinks"><a href="#loans">Loans</a><a href="#tools">Tools</a><a href="#how">How it works</a><a href="#track">Track</a><a href="#support">Support</a></nav><div class="nav-actions"><a class="btn ghost" href="/customer">My account</a><a class="btn primary" href="#apply">Apply now</a><button class="btn mobile" onclick="document.querySelector('.navlinks').style.display=document.querySelector('.navlinks').style.display==='flex'?'none':'flex'">Menu</button></div></div></header>
-<main id="top"><section class="hero wrap"><div><span class="eyebrow"><i></i> LOAN GUIDANCE PLATFORM</span><h1>Loan planning that feels <span class="grad">simple.</span></h1><p class="lead">Explore loan categories, compare available products, understand your estimated EMI, apply online and keep your application journey in one place.</p><div class="actions"><a class="btn primary" href="#apply">Start my application →</a><a class="btn" href="#tools">Check my options</a></div><div class="micro"><span>✓ Guided application</span><span>✓ Application tracking</span><span>✓ Human support</span></div></div><div class="hero-card"><div class="dashboard"><div class="dash-head"><div><div class="tiny">YOUR LOAN JOURNEY</div><b>Application workspace</b></div><span class="status">Live tracking</span></div><div class="money">₹ 8,50,000</div><div class="muted">Illustrative requirement · not a lender quote</div><div class="bars"><i style="height:35%"></i><i style="height:48%"></i><i style="height:62%"></i><i style="height:55%"></i><i style="height:76%"></i><i style="height:88%"></i><i style="height:100%"></i></div><div class="mini-grid"><div class="mini"><span class="tiny">Stage</span><b>Partner review</b></div><div class="mini"><span class="tiny">Documents</span><b>2 / 4 ready</b></div></div></div></div></section>
-<section class="section" id="loans"><div class="wrap"><div class="section-head"><div><div class="kicker">01 · Explore</div><h2>Choose what you need.</h2></div><p>Start with your requirement. Product availability, eligibility and final terms depend on the relevant lending partner.</p></div><div class="grid" id="loanGrid"></div></div></section>
-<section class="section" id="tools"><div class="wrap"><div class="section-head"><div><div class="kicker">02 · Smart tools</div><h2>Plan before you apply.</h2></div><p>Use estimates and product information to make a more informed enquiry. These tools are guidance, not approval decisions.</p></div><div class="tools"><div class="tool"><div class="kicker">EMI calculator</div><h3>Know the monthly estimate.</h3><form id="emiForm" class="form"><div class="field"><label>Loan amount</label><input name="principal" type="number" value="500000" min="10000"></div><div class="form two"><div class="field"><label>Interest % / year</label><input name="annualInterestRate" type="number" step="0.1" value="12"></div><div class="field"><label>Tenure / years</label><select id="tenureYears" name="tenureYears"><option value="1">1 Year</option><option value="2">2 Years</option><option value="3">3 Years</option><option value="4">4 Years</option><option value="5" selected>5 Years</option><option value="6">6 Years</option><option value="7">7 Years</option><option value="8">8 Years</option><option value="9">9 Years</option><option value="10">10 Years</option><option value="12">12 Years</option><option value="15">15 Years</option><option value="20">20 Years</option><option value="25">25 Years</option><option value="30">30 Years</option></select></div></div><button class="btn primary">Calculate EMI</button></form><div id="emiResult" class="result"></div></div>
-<div class="tool"><div class="kicker">Eligibility checker</div><h3>See an indicative profile.</h3><form id="eligForm" class="form"><div class="form two"><div class="field"><label>Monthly income</label><input name="income" type="number" value="60000"></div><div class="field"><label>Existing EMI</label><input name="existingEmi" type="number" value="5000"></div></div><div class="field"><label>CIBIL range</label><select name="cibil"><option>750+</option><option>700–749</option><option>650–699</option><option>Below 650</option><option>Not sure</option></select></div><button class="btn primary">Check profile</button></form><div id="eligResult" class="result"></div></div>
-<div class="tool"><div class="kicker">Smart loan finder</div><h3>Tell us what matters.</h3><form id="finderForm" class="form"><div class="field"><label>Requirement</label><select name="type" id="finderType"></select></div><div class="field"><label>Amount</label><input name="amount" type="number" value="500000"></div><div class="field"><label>Employment</label><select name="employment"><option>Salaried</option><option>Self-employed</option><option>Business owner</option><option>Professional</option><option>Other</option></select></div><button class="btn primary">Find matching products</button></form><div id="finderResult" class="result"></div></div></div></div></section>
-<section class="section" id="compare"><div class="wrap"><div class="section-head"><div><div class="kicker">03 · Compare</div><h2>See products side by side.</h2></div><p>Only products configured in LOANSMEET are shown. No lender-specific term is invented here.</p></div><div class="panel table-wrap"><table class="compare"><thead><tr><th>Product</th><th>Category</th><th>Amount range</th><th>Tenure</th><th>Eligibility</th></tr></thead><tbody id="compareRows"><tr><td colspan="5" class="muted">Loading products…</td></tr></tbody></table></div></div></section>
-<section class="section" id="how"><div class="wrap"><div class="section-head"><div><div class="kicker">04 · Journey</div><h2>One place from enquiry to outcome.</h2></div><p>LOANSMEET is a loan lead-generation and assistance platform, not the final lending decision-maker.</p></div><div class="feature-grid"><div class="feature"><strong>01 · Tell us</strong><span>Share your requirement, income, employment, city and credit range.</span></div><div class="feature"><strong>02 · Review</strong><span>Our team reviews the enquiry and identifies relevant next steps.</span></div><div class="feature"><strong>03 · Match</strong><span>Where appropriate, the enquiry can be routed to a suitable partner.</span></div><div class="feature"><strong>04 · Documents</strong><span>Upload requested documents through the secure application workflow.</span></div><div class="feature"><strong>05 · Track</strong><span>Follow status updates and timeline events using your application access.</span></div><div class="feature"><strong>06 · Support</strong><span>Raise a support request whenever you need help with the journey.</span></div></div></div></section>
-<section class="section" id="apply"><div class="wrap"><div class="split"><div><div class="kicker">05 · Apply</div><h2>Tell us what you need.</h2><p class="lead">A real enquiry, not a promise. We collect only what is needed to start the assistance journey.</p><div class="feature-grid" style="grid-template-columns:1fr;margin-top:25px"><div class="feature"><strong>Private application access</strong><span>Your confirmation includes an Application ID and private tracking token.</span></div><div class="feature"><strong>Consent first</strong><span>Your enquiry is submitted only after you confirm the consent checkbox.</span></div></div></div><div class="panel"><form id="applyForm" class="form"><div class="form two"><div class="field"><label>Name *</label><input name="name" required></div><div class="field"><label>Mobile *</label><input name="mobile" inputmode="numeric" maxlength="10" required></div></div><div class="form two"><div class="field"><label>Email</label><input name="email" type="email"></div><div class="field"><label>City *</label><input name="city" required></div></div><div class="form two"><div class="field"><label>Loan type *</label><select name="loanType" id="applyLoan" required></select></div><div class="field"><label>Loan amount *</label><input name="loanAmount" type="number" min="10000" required></div></div><div class="form two"><div class="field"><label>Monthly income *</label><input name="monthlyIncome" type="number" required></div><div class="field"><label>Existing EMI</label><input name="existingEmi" type="number" value="0"></div></div><div class="form two"><div class="field"><label>Employment *</label><select name="employmentType" required><option value="">Select</option><option>Salaried</option><option>Self-employed</option><option>Business owner</option><option>Professional</option><option>Other</option></select></div><div class="field"><label>CIBIL *</label><select name="cibilRange" required><option value="">Select</option><option>Below 650</option><option>650–699</option><option>700–749</option><option>750+</option><option>Not sure</option></select></div></div><label class="check"><input type="checkbox" name="consent" value="true" required><span>I consent to LOANSMEET using these details to process my enquiry and contact me about the request.</span></label><button class="btn primary">Submit my requirement →</button><div id="applyError" class="error"></div><div id="applySuccess" class="success"></div></form></div></div></div></section>
-<section class="section" id="track"><div class="wrap"><div class="section-head"><div><div class="kicker">06 · Track</div><h2>Application Tracker — know where your application stands.</h2></div><p>Use the Application ID and private tracking token from your confirmation.</p></div><div class="panel"><form id="trackForm" class="form two"><div class="field"><label>Application ID</label><input name="code" placeholder="LM-..." required></div><div class="field"><label>Private tracking token</label><input name="token" placeholder="Your private token" required></div><button class="btn primary">Track application</button><div></div></form><div id="trackResult" class="result"></div></div></div></section>
-<section class="section" id="support"><div class="wrap"><div class="cta"><div><div class="kicker">07 · Support</div><h2>Need a person? We're here.</h2><p>Ask a question, request a callback or raise a support ticket. You can also use the AI assistant for general loan guidance.</p></div><div class="actions"><a class="btn primary" href="#supportForm">Request callback</a><a class="btn" href="/customer">Open customer workspace</a></div></div><div class="panel" id="supportForm" style="margin-top:18px"><form id="supportFormEl" class="form"><div class="form two"><div class="field"><label>Name</label><input name="name" required></div><div class="field"><label>Mobile</label><input name="mobile"></div></div><div class="form two"><div class="field"><label>Email</label><input name="email" type="email"></div><div class="field"><label>Subject</label><input name="subject" value="Callback request" required></div></div><div class="field"><label>Message</label><textarea name="message" rows="4" required>I would like a callback from the LOANSMEET team.</textarea></div><button class="btn primary">Send support request</button><div id="supportMsg" class="success"></div></form></div></div></section>
-</main><footer class="footer"><div class="wrap footer-grid"><div><img src="/logo.svg" alt="LOANSMEET" style="width:180px"><p class="fine">Loan assistance and lead-generation platform. LOANSMEET is not a lender. Final approval, rates, tenure, documents and terms are decided by the relevant lending partner.</p></div><div><b>Explore</b><a href="#loans">Loan categories</a><a href="#compare">Compare products</a><a href="#tools">Smart tools</a></div><div><b>Workspace</b><a href="/customer">Customer dashboard</a><a href="/partner">Register as Partner</a><a href="/admin">Admin</a></div><div><b>Legal</b><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="#support">Support</a></div></div><div class="wrap fine">© LOANSMEET · Estimates are for guidance only. No approval or rate is guaranteed.</div></footer>
-<button class="ai-open" onclick="toggleAI()">✦ Ask LOANSMEET</button><div class="ai" id="ai"><div class="ai-head"><b>LOANSMEET AI</b><button class="btn" onclick="toggleAI()">×</button></div><div class="messages" id="messages"><div class="msg bot">Hi. Ask me about loan types, documents, EMI or the application process.</div></div><form class="ai-input" id="aiForm"><input id="aiText" placeholder="Ask a question…"><button class="btn primary">Send</button></form></div><div class="toast" id="toast"></div>
-<script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)]; const state={loans:[],products:[]};
-async function api(url,opt={}){const r=await fetch(url,{...opt,headers:{'Content-Type':'application/json',...(opt.headers||{})}});const j=await r.json();if(!r.ok)throw Error(j.error||'Request failed');return j}
-function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))} function money(v){return '₹'+Number(v||0).toLocaleString('en-IN')}
-function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3500)}
-async function init(){state.loans=await api('/api/loan-types');$('#loanGrid').innerHTML=state.loans.map((x,i)=>`<a class="loan" href="#apply" onclick="$('#applyLoan').value=${JSON.stringify(x)}"><div class="icon">${String(i+1).padStart(2,'0')}</div><b>${esc(x)}</b><span>Explore this requirement →</span></a>`).join('');['#applyLoan','#finderType'].forEach(s=>$(s).innerHTML=state.loans.map(x=>`<option>${esc(x)}</option>`).join(''));try{state.products=await api('/api/loan-products')}catch{state.products=[]}renderCompare(); if(location.hash==='#apply')setTimeout(()=>$('#apply').scrollIntoView(),100)}
-function renderCompare(){const rows=state.products.length?state.products:state.loans.map(x=>({name:x,category:x,min_amount:0,max_amount:0,min_tenure:0,max_tenure:0,eligibility:'Partner-dependent'}));$('#compareRows').innerHTML=rows.slice(0,30).map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>${esc(x.category)}</td><td>${x.min_amount||x.max_amount?money(x.min_amount)+' – '+money(x.max_amount):'Configured per product'}</td><td>${x.min_tenure||x.max_tenure?`${x.min_tenure}–${x.max_tenure} months`:'Partner-dependent'}</td><td>${esc(x.eligibility||'Partner-dependent')}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">No products configured yet.</td></tr>'}
-$('#emiForm').onsubmit=async e=>{e.preventDefault();try{const d=Object.fromEntries(new FormData(e.currentTarget));d.tenureMonths=Number(d.tenureYears)*12;delete d.tenureYears;const j=await api('/api/calculate-emi',{method:'POST',body:JSON.stringify(d)});$('#emiResult').style.display='block';$('#emiResult').innerHTML=`<div class="tiny">Estimated monthly EMI</div><div class="big">${money(j.emi)}</div><div class="muted">Total payment ${money(j.totalPayment)} · Interest ${money(j.totalInterest)}</div>`}catch(x){toast(x.message)}};
-$('#eligForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.currentTarget)),income=+d.income||0,emi=+d.existingEmi||0,score=d.cibil==='750+'?3:d.cibil==='700–749'?2:d.cibil==='650–699'?1:0,ratio=income?emi/income:1;let label=score>=2&&ratio<.5?'Stronger indicative profile':score>=1&&ratio<.6?'Needs partner review':'More review may be needed';$('#eligResult').style.display='block';$('#eligResult').innerHTML=`<div class="tiny">Indicative result</div><div class="big">${label}</div><div class="muted">This is not a lender eligibility decision or approval.</div>`};
-$('#finderForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.currentTarget)),amount=+d.amount||0,type=d.type;let matches=state.products.filter(p=>(String(p.category).toLowerCase().includes(type.toLowerCase())||String(p.name).toLowerCase().includes(type.toLowerCase()))&&(!p.max_amount||amount<=p.max_amount)&&(!p.min_amount||amount>=p.min_amount));if(!matches.length)matches=state.products.filter(p=>String(p.category).toLowerCase().includes(type.split(' ')[0].toLowerCase())).slice(0,3);$('#finderResult').style.display='block';$('#finderResult').innerHTML=matches.length?matches.slice(0,3).map(p=>`<div style="padding:8px 0"><b>${esc(p.name)}</b><div class="muted">${esc(p.description||'Product configured for '+p.category)}</div></div>`).join(''):'<div class="muted">No configured match yet. You can still submit your requirement for team guidance.</div>'};
-$('#applyForm').onsubmit=async e=>{e.preventDefault();$('#applyError').textContent='';const f=new FormData(e.currentTarget),d=Object.fromEntries(f);d.consent=true;try{const j=await api('/api/leads',{method:'POST',body:JSON.stringify(d)});$('#applySuccess').style.display='block';$('#applySuccess').innerHTML=`<b>Application received.</b><br>Application ID: <strong>${esc(j.applicationId)}</strong><br><small>Private tracking token: ${esc(j.trackingToken||'Not available')}</small><br><a class="btn" style="display:inline-block;margin-top:10px" href="#track">Track this application</a>`;e.currentTarget.reset();sessionStorage.setItem('lm_last_application',JSON.stringify({code:j.applicationId,token:j.trackingToken}));toast('Application submitted successfully');}catch(x){$('#applyError').textContent=x.message}};
-$('#trackForm').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.currentTarget));try{const j=await api('/api/application/'+encodeURIComponent(d.code)+'?token='+encodeURIComponent(d.token));$('#trackResult').style.display='block';$('#trackResult').innerHTML=`<div class="pill">${esc(j.application.status)}</div><h3>${esc(j.application.code)} · ${esc(j.application.loanType)}</h3><div class="muted">${money(j.application.loanAmount)} · ${esc(j.application.city)}</div><div class="timeline" style="margin-top:20px">${j.timeline.map((x,i)=>`<div class="event"><div class="circle">${i+1}</div><div><b>${esc(x.status)}</b><div class="muted">${esc(x.note||'Status update')} · ${esc(x.created_at)}</div></div></div>`).join('')}</div>`}catch(x){$('#trackResult').style.display='block';$('#trackResult').innerHTML=`<div class="error">${esc(x.message)}</div>`}};
-$('#supportFormEl').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.currentTarget));try{const j=await api('/api/support',{method:'POST',body:JSON.stringify(d)});$('#supportMsg').style.display='block';$('#supportMsg').textContent='Support request created. Ticket #'+j.ticketId; e.currentTarget.reset()}catch(x){toast(x.message)}};
-function toggleAI(){$('#ai').style.display=$('#ai').style.display==='block'?'none':'block'} $('#aiForm').onsubmit=async e=>{e.preventDefault();const q=$('#aiText').value.trim();if(!q)return;$('#messages').insertAdjacentHTML('beforeend',`<div class="msg user">${esc(q)}</div>`);$('#aiText').value='';try{const j=await api('/api/ai',{method:'POST',body:JSON.stringify({message:q,language:'gu'})});$('#messages').insertAdjacentHTML('beforeend',`<div class="msg bot">${esc(j.answer)}</div>`);$('#messages').scrollTop=99999}catch(x){toast(x.message)}};
-init().catch(()=>toast('Some product data is unavailable right now.'));
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LoanMeet — Your Dreams. Our Support.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            darkBg: '#070913',
+            surface: '#0f1423',
+            goldAccent: '#f59e0b',
+            cyanAccent: '#06b6d4',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(15, 20, 35, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    .glow-gold {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-darkBg text-slate-100 font-sans antialiased min-h-screen">
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-50 glass-card border-b border-slate-800 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-goldAccent flex items-center justify-center font-bold text-darkBg text-xl glow-gold">LM</div>
+      <span class="text-xl font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-goldAccent to-amber-200">LoanMeet</span>
+    </div>
+    <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
+      <a href="#home" class="hover:text-goldAccent transition">Home</a>
+      <a href="#finder" class="hover:text-goldAccent transition">Loan Finder</a>
+      <a href="#calculator" class="hover:text-goldAccent transition">EMI Calculator</a>
+      <a href="#products" class="hover:text-goldAccent transition">Products</a>
+      <a href="#tracking" class="hover:text-goldAccent transition">Track Status</a>
+      <a href="#support" class="hover:text-goldAccent transition">Support</a>
+    </nav>
+    <div class="flex items-center space-x-4">
+      <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-slate-800 text-goldAccent hover:bg-slate-700 transition">🌓</button>
+      <a href="#login" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-goldAccent text-darkBg font-semibold shadow-lg hover:scale-105 transition">Login</a>
+    </div>
+  </header>
+
+  <!-- Hero Section (Homepage) -->
+  <section id="home" class="relative overflow-hidden py-20 px-6 lg:px-16 flex flex-col lg:flex-row items-center justify-between">
+    <div class="max-w-xl space-y-6 z-10">
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-goldAccent/10 text-goldAccent border border-goldAccent/30">✨ Fast, Secure & Transparent</span>
+      <h1 class="text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+        Your Dreams. <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-goldAccent to-amber-200">Our Support.</span>
+      </h1>
+      <p class="text-slate-400 text-lg">Get the right loan, at the right time. Instant approvals with zero paperwork hassle.</p>
+      <div class="flex space-x-4">
+        <a href="#finder" class="px-8 py-3.5 rounded-xl font-bold bg-goldAccent text-darkBg shadow-lg hover:bg-amber-400 transition">Apply for Loan</a>
+        <a href="#calculator" class="px-8 py-3.5 rounded-xl font-bold glass-card text-slate-200 hover:border-goldAccent transition">Explore Loans</a>
+      </div>
+    </div>
+    <div class="mt-10 lg:mt-0 w-full lg:w-1/2 flex justify-center">
+      <div class="glass-card p-6 rounded-3xl w-full max-w-md glow-gold space-y-4">
+        <div class="flex justify-between items-center text-sm text-slate-400">
+          <span>Instant Loan Estimator</span>
+          <span class="text-goldAccent font-semibold">Active Offer</span>
+        </div>
+        <div class="text-3xl font-bold text-white">₹ 25,00,000</div>
+        <div class="text-sm text-slate-300">Interest @ 8.5% p.a. • Up to 60 Months</div>
+        <button class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-600 to-goldAccent text-darkBg font-bold">Apply Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMI Calculator Section -->
+  <section id="calculator" class="py-16 px-6 lg:px-16 glass-card mx-6 rounded-3xl my-10">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <div class="text-center space-y-2">
+        <h2 class="text-3xl font-bold text-goldAccent">EMI Calculator</h2>
+        <p class="text-slate-400">Calculate your monthly EMI and plan your finances better[cite: 2].</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Loan Amount (₹)</label>
+            <input type="number" id="principalInput" value="1000000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-goldAccent outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Interest Rate (% p.a.)</label>
+            <input type="number" id="interestInput" value="10.5" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-goldAccent outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Tenure (Years)</label>
+            <input type="number" id="tenureYearsInput" value="5" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-goldAccent outline-none">
+          </div>
+          <button onclick="calculateEmi()" class="w-full py-3.5 rounded-xl font-bold bg-goldAccent text-darkBg hover:bg-amber-400 transition">Calculate EMI</button>
+        </div>
+        <div class="glass-card p-6 rounded-2xl text-center space-y-4 border border-goldAccent/30">
+          <div class="text-slate-400 text-sm">Monthly EMI</div>
+          <div id="resultEmi" class="text-4xl font-extrabold text-goldAccent">₹ 21,823</div>
+          <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800 text-left text-sm">
+            <div>
+              <span class="text-slate-400 block">Total Interest</span>
+              <span id="resultInterest" class="font-semibold text-white">₹ 2,09,380</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Total Amount</span>
+              <span id="resultTotal" class="font-semibold text-white">₹ 12,09,380</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript for Connected API & Features -->
+  <script>
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    async function calculateEmi() {
+      const principal = Number(document.getElementById('principalInput').value);
+      const annualInterestRate = Number(document.getElementById('interestInput').value);
+      const tenureYears = Number(document.getElementById('tenureYearsInput').value);
+      const tenureMonths = tenureYears * 12; // Safely converting years to months as required by backend API
+
+      try {
+        const response = await fetch('/api/calculate-emi', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ principal, annualInterestRate, tenureMonths })
+        });
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('resultEmi').innerText = `₹ ${data.emi.toLocaleString('en-IN')}`;
+          document.getElementById('resultInterest').innerText = `₹ ${data.totalInterest.toLocaleString('en-IN')}`;
+          document.getElementById('resultTotal').innerText = `₹ ${data.totalPayment.toLocaleString('en-IN')}`;
+        } else {
+          alert(data.error || 'Calculation failed.');
+        }
+      } catch (err) {
+        console.error('API Error:', err);
+      }
+    }
+  </script>
+</body>
+</html>
