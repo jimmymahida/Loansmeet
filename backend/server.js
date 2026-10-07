@@ -7,7 +7,10 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
+
+// Correct path to frontend folder (tara folder structure mujab backend thi ek step bahar frontend che)
 const FRONTEND = path.join(__dirname, '../frontend');
+
 const db = new Database(path.join(__dirname, 'loanleads.db'));
 
 db.pragma('journal_mode = WAL');
@@ -77,8 +80,14 @@ function requireAdmin(req,res,next){ const token=getCookie(req,'loansmeet_admin'
 function rateLimit(req,res,next){ const key=req.ip||'unknown',now=Date.now(); const b=rateBuckets.get(key)||{start:now,count:0}; if(now-b.start>60000){b.start=now;b.count=0} b.count++; rateBuckets.set(key,b); if(b.count>180)return res.status(429).json({error:'Too many requests. Please try again shortly.'}); next(); }
 setInterval(()=>{ const c=Date.now()-90000; for(const [k,v] of rateBuckets)if(v.start<c)rateBuckets.delete(k); for(const [k,v] of sessions)if(v.expires<Date.now())sessions.delete(k); },90000).unref();
 
+// Security Headers & Static Files Middleware (Crucial for CSS/JS loading)
 app.use((req,res,next)=>{ res.setHeader('X-Content-Type-Options','nosniff'); res.setHeader('X-Frame-Options','SAMEORIGIN'); res.setHeader('Referrer-Policy','strict-origin-when-cross-origin'); res.setHeader('Permissions-Policy','camera=(),microphone=(),geolocation=()'); res.setHeader('Cross-Origin-Opener-Policy','same-origin'); res.setHeader('Content-Security-Policy',"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self';"); next(); });
-app.use(rateLimit); app.use(express.json({limit:'100kb'})); app.use(express.urlencoded({extended:false})); app.use(express.static(FRONTEND));
+app.use(rateLimit); 
+app.use(express.json({limit:'100kb'})); 
+app.use(express.urlencoded({extended:false})); 
+
+// MUST HAVE: This serves your frontend folder (CSS, JS, Images) correctly
+app.use(express.static(FRONTEND));
 
 app.get('/api/health',(_req,res)=>res.json({ok:true,service:'loansmeet'}));
 app.get('/api/loan-types',(_req,res)=>res.json(loanTypes));
@@ -154,4 +163,5 @@ app.get('/admin',(_req,res)=>res.sendFile(path.join(FRONTEND,'admin.html')));
 app.get('/privacy',(_req,res)=>res.sendFile(path.join(FRONTEND,'privacy.html')));
 app.get('/terms',(_req,res)=>res.sendFile(path.join(FRONTEND,'terms.html')));
 app.get('*',(_req,res)=>res.sendFile(path.join(FRONTEND,'index.html')));
+
 app.listen(PORT,()=>console.log(`LOANSMEET running at http://localhost:${PORT}`));
