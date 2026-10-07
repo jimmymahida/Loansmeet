@@ -3,416 +3,1185 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LoanMeet — Your Dreams. Our Priority.</title>
-<style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-margin:0;
-font-family:Inter,Arial,sans-serif;
-background:#030a0f;
-color:#f7f0dc;
-overflow-x:hidden
-}
-body:before{
-content:"";
-position:fixed;inset:0;z-index:-2;
-background:
-radial-gradient(circle at 75% 20%,rgba(218,164,58,.16),transparent 30%),
-radial-gradient(circle at 20% 80%,rgba(0,145,132,.12),transparent 35%),
-linear-gradient(135deg,#02070b,#07151b 55%,#02080c)
-}
-body:after{
-content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-background:linear-gradient(120deg,transparent 40%,rgba(244,193,78,.04),transparent 60%);
-animation:shine 8s infinite linear
-}
-@keyframes shine{from{transform:translateX(-50%)}to{transform:translateX(50%)}}
-
-.container{width:min(1240px,92%);margin:auto}
-
-nav{
-height:76px;display:flex;align-items:center;
-border-bottom:1px solid rgba(255,255,255,.08);
-background:rgba(2,8,12,.72);backdrop-filter:blur(20px);
-position:sticky;top:0;z-index:50
-}
-.nav{display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px}
-.logo-mark{
-width:28px;height:28px;border:2px solid #e9bc58;border-radius:7px;
-display:grid;place-items:center;color:#e9bc58
-}
-.links{display:flex;gap:28px}
-.links a{color:#aeb8bb;text-decoration:none;font-size:13px}
-.links a:hover{color:#f4c75e}
-.navbtns{display:flex;gap:10px}
-
-.btn{
-border:1px solid rgba(255,255,255,.13);
-background:#0b1b22;color:#fff;
-padding:12px 22px;border-radius:10px;
-font-weight:800;text-decoration:none;display:inline-block;
-transition:.3s
-}
-.btn:hover{transform:translateY(-3px);border-color:#e8b94f}
-.btn.gold{
-background:linear-gradient(135deg,#f8d17a,#d99729);
-color:#111;border:0;
-box-shadow:0 8px 30px rgba(222,164,49,.22)
-}
-
-.hero{
-min-height:650px;display:grid;grid-template-columns:1fr 1fr;
-align-items:center;gap:55px;padding:75px 0
-}
-.badge{
-display:inline-flex;gap:8px;align-items:center;
-padding:8px 14px;border:1px solid rgba(224,174,66,.35);
-border-radius:30px;color:#edc464;font-size:11px;font-weight:800;
-letter-spacing:1.5px
-}
-.hero h1{
-font-family:Georgia,serif;
-font-size:clamp(58px,7vw,92px);
-line-height:.92;margin:25px 0
-}
-.goldtext{color:#eab958}
-.hero p{color:#a9b4b7;font-size:17px;line-height:1.7;max-width:570px}
-.actions{display:flex;gap:14px;margin:28px 0}
-.micro{display:flex;gap:20px;color:#809095;font-size:12px}
-
-.hero-image{
-height:500px;border-radius:30px;
-background:
-linear-gradient(90deg,rgba(2,8,12,.05),rgba(2,8,12,.5)),
-url("/assets/reference-hero.jpg") center/cover;
-border:1px solid rgba(255,255,255,.16);
-box-shadow:0 30px 100px rgba(0,0,0,.65);
-position:relative;overflow:hidden;
-animation:float 6s ease-in-out infinite
-}
-@keyframes float{50%{transform:translateY(-10px)}}
-
-.section{padding:90px 0}
-.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:35px}
-.kicker{color:#e5b953;font-size:11px;font-weight:900;letter-spacing:2px}
-h2{font-family:Georgia,serif;font-size:42px;margin:10px 0}
-.section-head p{color:#829095;max-width:500px}
-
-.cards{
-display:grid;grid-template-columns:repeat(5,1fr);gap:14px
-}
-.card{
-background:linear-gradient(145deg,#0b1b22,#061116);
-border:1px solid rgba(255,255,255,.1);
-border-radius:16px;padding:25px;min-height:150px;
-transition:.35s;position:relative;overflow:hidden
-}
-.card:before{
-content:"";position:absolute;width:100px;height:100px;
-background:#e7b84d;filter:blur(60px);opacity:.08;right:-40px;top:-40px
-}
-.card:hover{transform:translateY(-8px);border-color:#cfa94f}
-.icon{
-width:40px;height:40px;border:1px solid #cda74b;
-border-radius:10px;display:grid;place-items:center;color:#e4bb5d;
-margin-bottom:18px
-}
-.card b{display:block;font-size:15px}
-.card span{display:block;color:#76868b;font-size:11px;margin-top:7px}
-
-.tools{
-display:grid;grid-template-columns:1fr 1fr;gap:20px
-}
-.panel{
-background:linear-gradient(145deg,#0a1a21,#061015);
-border:1px solid rgba(255,255,255,.1);
-border-radius:18px;padding:28px;
-box-shadow:0 20px 60px rgba(0,0,0,.3)
-}
-input,select{
-width:100%;padding:14px;margin:7px 0 15px;
-background:#07141b;color:#eee;border:1px solid #20343b;
-border-radius:9px;outline:none
-}
-label{font-size:12px;color:#a4afb2}
-
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
-.stat{padding:22px;background:#09171d;border:1px solid #1a3038;border-radius:14px}
-.stat strong{font-size:27px;color:#edc35e;display:block}
-.stat span{font-size:11px;color:#74858b}
-
-.track{
-display:grid;grid-template-columns:1fr 1fr;gap:20px
-}
-.timeline{border-left:2px solid #caa54b;padding-left:25px}
-.event{margin:25px 0;position:relative}
-.event:before{
-content:"";position:absolute;left:-34px;top:3px;
-width:13px;height:13px;border-radius:50%;background:#e7b84e;
-box-shadow:0 0 20px #e7b84e
-}
-
-.cta{
-padding:60px;border-radius:25px;
-background:
-radial-gradient(circle at 80% 20%,rgba(222,170,60,.2),transparent 30%),
-linear-gradient(120deg,#0b1c23,#071015);
-border:1px solid rgba(229,185,76,.2);
-text-align:center
-}
-.cta p{color:#89979b}
-
-footer{
-padding:50px 0;border-top:1px solid rgba(255,255,255,.08);
-color:#718086
-}
-
-.reveal{opacity:0;transform:translateY(35px);transition:1s}
-.reveal.show{opacity:1;transform:none}
-
-@media(max-width:900px){
-.links{display:none}
-.hero{grid-template-columns:1fr}
-.cards{grid-template-columns:repeat(2,1fr)}
-.tools,.track{grid-template-columns:1fr}
-.stats{grid-template-columns:repeat(2,1fr)}
-.hero-image{height:380px}
-}
-@media(max-width:600px){
-.cards{grid-template-columns:1fr}
-.hero h1{font-size:55px}
-.navbtns .btn:first-child{display:none}
-.micro{flex-direction:column;gap:7px}
-}
-</style>
+<title>LOANSMEET — Your Dreams. Our Priority.</title>
+<meta name="description" content="LOANSMEET helps you explore loan options, calculate EMI, apply online and track your application.">
+<meta name="theme-color" content="#07102b">
+<link rel="stylesheet" href="/styles.css">
+<link rel="manifest" href="/manifest.webmanifest">
 </head>
 
 <body>
 
-<nav>
-<div class="container nav">
-<div class="logo">
-<div class="logo-mark">L</div>
-LOANSMEET
+<!-- CINEMATIC INTRO -->
+<div class="brand-intro" id="brandIntro">
+  <div class="intro-orbit orbit-a"></div>
+  <div class="intro-orbit orbit-b"></div>
+  <div class="intro-glow"></div>
+
+  <div class="brand-intro-inner">
+    <div class="intro-logo-wrap">
+      <img class="brand-intro-logo" src="/logo.svg" alt="LOANSMEET">
+    </div>
+    <div class="brand-intro-name">LOAN ASSISTANCE · REIMAGINED</div>
+    <div class="brand-intro-line"></div>
+    <div class="brand-intro-tag">Your Dreams. Our Support.</div>
+  </div>
 </div>
 
-<div class="links">
-<a href="#home">Home</a>
-<a href="#loans">Loans</a>
-<a href="#tools">Tools</a>
-<a href="#journey">Journey</a>
-<a href="#apply">Apply</a>
-<a href="#contact">Contact</a>
-</div>
+<header class="nav">
+  <div class="wrap nav-inner">
 
-<div class="navbtns">
-<a class="btn" href="/customer">Login</a>
-<a class="btn gold" href="#apply">Get Started</a>
-</div>
-</div>
-</nav>
+    <a class="brand" href="#top">
+      <img src="/logo.svg" alt="LOANSMEET">
+    </a>
 
-<main>
+    <nav class="navlinks">
+      <a href="#top">Home</a>
+      <a href="#loans">Loans</a>
+      <a href="#tools">Tools</a>
+      <a href="#how">Journey</a>
+      <a href="#apply">Apply</a>
+      <a href="#track">Track</a>
+      <a href="#support">Support</a>
+    </nav>
 
-<section class="hero container" id="home">
-<div>
-<div class="badge">✦ LOAN GUIDANCE PLATFORM</div>
-<h1>Your Dreams.<br><span class="goldtext">Our Priority.</span></h1>
-<p>
-Get the right loan, at the right time. Fast, secure and transparent.
-Compare options, calculate EMI and start your application in one place.
-</p>
+    <div class="nav-actions">
+      <a class="btn ghost" href="/customer">My Account</a>
+      <a class="btn primary" href="#apply">Apply Now</a>
+      <button class="btn mobile" id="menuBtn">Menu</button>
+    </div>
 
-<div class="actions">
-<a href="#apply" class="btn gold">Apply Now →</a>
-<a href="#loans" class="btn">Explore Loans</a>
-</div>
+  </div>
+</header>
 
-<div class="micro">
-<span>✓ Fast assistance</span>
-<span>✓ Secure process</span>
-<span>✓ Human support</span>
-</div>
-</div>
+<main id="top">
 
-<div class="hero-image"></div>
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="hero-copy">
+
+    <span class="eyebrow">
+      <i></i>
+      SMART LOAN PLATFORM
+    </span>
+
+    <h1>
+      Your Dreams.
+      <span class="grad">Our Priority.</span>
+    </h1>
+
+    <p class="lead">
+      Find the right loan, understand your options, calculate your EMI
+      and manage your complete loan journey in one place.
+    </p>
+
+    <div class="actions">
+      <a class="btn primary big-btn" href="#apply">Apply Now →</a>
+      <a class="btn glass-btn" href="#tools">Explore Loans</a>
+    </div>
+
+    <div class="micro">
+      <span>✓ Smart loan matching</span>
+      <span>✓ Secure application</span>
+      <span>✓ Live tracking</span>
+    </div>
+
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-glow"></div>
+
+    <div class="hero-card">
+      <div class="dashboard">
+
+        <div class="dash-head">
+          <div>
+            <div class="tiny">YOUR LOAN JOURNEY</div>
+            <b>Application Dashboard</b>
+          </div>
+          <span class="status">● LIVE</span>
+        </div>
+
+        <div class="money">₹ 8,50,000</div>
+
+        <div class="muted">
+          Illustrative requirement · not a lender quote
+        </div>
+
+        <div class="bars">
+          <i style="height:35%"></i>
+          <i style="height:48%"></i>
+          <i style="height:62%"></i>
+          <i style="height:55%"></i>
+          <i style="height:76%"></i>
+          <i style="height:88%"></i>
+          <i style="height:100%"></i>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini">
+            <span class="tiny">Stage</span>
+            <b>Partner Review</b>
+          </div>
+
+          <div class="mini">
+            <span class="tiny">Documents</span>
+            <b>2 / 4 Ready</b>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- LOANS -->
 <section class="section" id="loans">
-<div class="container">
-<div class="section-head">
-<div>
-<div class="kicker">01 · LOAN CATEGORIES</div>
-<h2>Choose Your Loan Type</h2>
-</div>
-<p>Find the right financial solution for your requirement.</p>
-</div>
+  <div class="wrap">
 
-<div class="cards">
-<div class="card"><div class="icon">♙</div><b>Personal Loan</b><span>Flexible funds for your needs</span></div>
-<div class="card"><div class="icon">⌂</div><b>Home Loan</b><span>Build your dream home</span></div>
-<div class="card"><div class="icon">▣</div><b>Business Loan</b><span>Grow your business</span></div>
-<div class="card"><div class="icon">◉</div><b>Car Loan</b><span>Drive your dream car</span></div>
-<div class="card"><div class="icon">◇</div><b>Education Loan</b><span>Invest in your future</span></div>
-</div>
-</div>
+    <div class="section-head">
+      <div>
+        <div class="kicker">01 · LOAN PRODUCTS</div>
+        <h2>Choose Your Loan</h2>
+      </div>
+
+      <p>
+        Explore available loan categories and start your journey.
+        Final eligibility and terms depend on the lending partner.
+      </p>
+    </div>
+
+    <div class="grid" id="loanGrid"></div>
+
+  </div>
 </section>
 
-<section class="section" id="tools">
-<div class="container">
-<div class="section-head">
-<div>
-<div class="kicker">02 · EMI CALCULATOR</div>
-<h2>Calculate your EMI</h2>
-</div>
-<p>Estimate your monthly repayment in seconds.</p>
-</div>
+<!-- TOOLS -->
+<section class="section tools-section" id="tools">
+  <div class="wrap">
 
-<div class="tools">
-<div class="panel">
-<div class="kicker">EMI CALCULATOR</div>
-<h2 style="font-size:28px">Know your monthly estimate.</h2>
+    <div class="section-head">
+      <div>
+        <div class="kicker">02 · SMART TOOLS</div>
+        <h2>Plan Before You Apply</h2>
+      </div>
 
-<label>Loan Amount</label>
-<input id="amount" type="number" value="500000">
+      <p>
+        Use our calculators and smart finder to understand your indicative options.
+      </p>
+    </div>
 
-<label>Interest Rate %</label>
-<input id="rate" type="number" value="12">
+    <div class="tools">
 
-<label>Tenure / Months</label>
-<input id="months" type="number" value="60">
+      <!-- EMI -->
+      <div class="tool">
+        <div class="tool-icon">₹</div>
+        <div class="kicker">EMI CALCULATOR</div>
+        <h3>Calculate your EMI</h3>
 
-<button class="btn gold" onclick="calculate()">Calculate EMI</button>
+        <form id="emiForm" class="form">
 
-<div id="result" style="margin-top:25px;font-size:25px;color:#e9bf58"></div>
-</div>
+          <div class="field">
+            <label>Loan Amount</label>
+            <input name="principal" type="number" value="500000" min="10000">
+          </div>
 
-<div class="panel">
-<div class="kicker">LOAN FINDER</div>
-<h2 style="font-size:28px">Find Your Perfect Loan</h2>
-<p style="color:#87969a">Tell us what you need and we'll guide you toward the right option.</p>
+          <div class="form two">
+            <div class="field">
+              <label>Interest % / Year</label>
+              <input name="annualInterestRate" type="number" step="0.1" value="12">
+            </div>
 
-<select>
-<option>Personal Loan</option>
-<option>Home Loan</option>
-<option>Business Loan</option>
-<option>Car Loan</option>
-<option>Education Loan</option>
-</select>
+            <div class="field">
+              <label>Tenure / Months</label>
+              <input name="tenureMonths" type="number" value="60" min="1">
+            </div>
+          </div>
 
-<input placeholder="Loan Amount">
-<select>
-<option>Salaried</option>
-<option>Self-employed</option>
-<option>Business Owner</option>
-</select>
+          <button class="btn primary">Calculate EMI</button>
+        </form>
 
-<button class="btn gold">Find Best Options</button>
-</div>
-</div>
-</div>
+        <div id="emiResult" class="result"></div>
+      </div>
+
+      <!-- ELIGIBILITY -->
+      <div class="tool">
+        <div class="tool-icon">✓</div>
+        <div class="kicker">ELIGIBILITY</div>
+        <h3>Check your profile</h3>
+
+        <form id="eligForm" class="form">
+
+          <div class="form two">
+            <div class="field">
+              <label>Monthly Income</label>
+              <input name="income" type="number" value="60000">
+            </div>
+
+            <div class="field">
+              <label>Existing EMI</label>
+              <input name="existingEmi" type="number" value="5000">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>CIBIL Range</label>
+            <select name="cibil">
+              <option>750+</option>
+              <option>700–749</option>
+              <option>650–699</option>
+              <option>Below 650</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+
+          <button class="btn primary">Check Profile</button>
+        </form>
+
+        <div id="eligResult" class="result"></div>
+      </div>
+
+      <!-- FINDER -->
+      <div class="tool">
+        <div class="tool-icon">⌕</div>
+        <div class="kicker">SMART FINDER</div>
+        <h3>Find matching products</h3>
+
+        <form id="finderForm" class="form">
+
+          <div class="field">
+            <label>Requirement</label>
+            <select name="type" id="finderType"></select>
+          </div>
+
+          <div class="field">
+            <label>Amount</label>
+            <input name="amount" type="number" value="500000">
+          </div>
+
+          <div class="field">
+            <label>Employment</label>
+            <select name="employment">
+              <option>Salaried</option>
+              <option>Self-employed</option>
+              <option>Business owner</option>
+              <option>Professional</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <button class="btn primary">Find Matches</button>
+        </form>
+
+        <div id="finderResult" class="result"></div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
-<section class="section" id="journey">
-<div class="container">
-<div class="section-head">
-<div>
-<div class="kicker">03 · YOUR JOURNEY</div>
-<h2>One place from enquiry to outcome.</h2>
-</div>
-</div>
+<!-- COMPARE -->
+<section class="section" id="compare">
+  <div class="wrap">
 
-<div class="stats">
-<div class="stat"><strong>01</strong><span>Tell us your requirement</span></div>
-<div class="stat"><strong>02</strong><span>Review your profile</span></div>
-<div class="stat"><strong>03</strong><span>Match suitable options</span></div>
-<div class="stat"><strong>04</strong><span>Track your application</span></div>
-</div>
-</div>
+    <div class="section-head">
+      <div>
+        <div class="kicker">03 · COMPARE</div>
+        <h2>Compare Loan Products</h2>
+      </div>
+
+      <p>
+        Products shown here are only those configured in LOANSMEET.
+      </p>
+    </div>
+
+    <div class="panel table-wrap">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Amount Range</th>
+            <th>Tenure</th>
+            <th>Eligibility</th>
+          </tr>
+        </thead>
+
+        <tbody id="compareRows">
+          <tr>
+            <td colspan="5" class="muted">Loading products…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </section>
 
+<!-- JOURNEY -->
+<section class="section" id="how">
+  <div class="wrap">
+
+    <div class="section-head">
+      <div>
+        <div class="kicker">04 · JOURNEY</div>
+        <h2>One Complete Loan Journey</h2>
+      </div>
+
+      <p>
+        From enquiry to application tracking, everything stays connected.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+
+      <div class="feature">
+        <span class="feature-no">01</span>
+        <strong>Tell Us</strong>
+        <span>Share your loan requirement and basic details.</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-no">02</span>
+        <strong>Review</strong>
+        <span>Our team reviews the enquiry and next steps.</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-no">03</span>
+        <strong>Match</strong>
+        <span>Find relevant configured loan products.</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-no">04</span>
+        <strong>Documents</strong>
+        <span>Upload requested documents securely.</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-no">05</span>
+        <strong>Track</strong>
+        <span>Follow application status and timeline.</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-no">06</span>
+        <strong>Support</strong>
+        <span>Connect with the support team whenever needed.</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- APPLY -->
 <section class="section" id="apply">
-<div class="container">
-<div class="panel">
-<div class="kicker">04 · APPLY NOW</div>
-<h2>Start Your Application</h2>
+  <div class="wrap">
 
-<div class="tools">
-<div>
-<label>Full Name</label>
-<input placeholder="Your full name">
+    <div class="split">
 
-<label>Mobile Number</label>
-<input placeholder="+91 XXXXX XXXXX">
+      <div class="apply-copy">
+        <div class="kicker">05 · APPLICATION</div>
+        <h2>Start Your Application</h2>
 
-<label>Email Address</label>
-<input placeholder="you@example.com">
-</div>
+        <p class="lead">
+          Tell us what you need. Your enquiry will enter the existing
+          LOANSMEET application workflow.
+        </p>
 
-<div>
-<label>Loan Type</label>
-<select>
-<option>Personal Loan</option>
-<option>Home Loan</option>
-<option>Business Loan</option>
-<option>Car Loan</option>
-</select>
+        <div class="feature-grid one">
 
-<label>Loan Amount</label>
-<input placeholder="₹ 5,00,000">
+          <div class="feature">
+            <strong>Private Application Access</strong>
+            <span>
+              Receive an Application ID and private tracking token.
+            </span>
+          </div>
 
-<label>Monthly Income</label>
-<input placeholder="₹ 50,000">
-</div>
-</div>
+          <div class="feature">
+            <strong>Consent First</strong>
+            <span>
+              Your enquiry is submitted only after consent.
+            </span>
+          </div>
 
-<button class="btn gold">Submit Application →</button>
-</div>
-</div>
+        </div>
+      </div>
+
+      <div class="panel application-panel">
+
+        <form id="applyForm" class="form">
+
+          <div class="form two">
+            <div class="field">
+              <label>Name *</label>
+              <input name="name" required>
+            </div>
+
+            <div class="field">
+              <label>Mobile *</label>
+              <input name="mobile" inputmode="numeric" maxlength="10" required>
+            </div>
+          </div>
+
+          <div class="form two">
+            <div class="field">
+              <label>Email</label>
+              <input name="email" type="email">
+            </div>
+
+            <div class="field">
+              <label>City *</label>
+              <input name="city" required>
+            </div>
+          </div>
+
+          <div class="form two">
+            <div class="field">
+              <label>Loan Type *</label>
+              <select name="loanType" id="applyLoan" required></select>
+            </div>
+
+            <div class="field">
+              <label>Loan Amount *</label>
+              <input name="loanAmount" type="number" min="10000" required>
+            </div>
+          </div>
+
+          <div class="form two">
+            <div class="field">
+              <label>Monthly Income *</label>
+              <input name="monthlyIncome" type="number" required>
+            </div>
+
+            <div class="field">
+              <label>Existing EMI</label>
+              <input name="existingEmi" type="number" value="0">
+            </div>
+          </div>
+
+          <div class="form two">
+            <div class="field">
+              <label>Employment *</label>
+              <select name="employmentType" required>
+                <option value="">Select</option>
+                <option>Salaried</option>
+                <option>Self-employed</option>
+                <option>Business owner</option>
+                <option>Professional</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>CIBIL *</label>
+              <select name="cibilRange" required>
+                <option value="">Select</option>
+                <option>Below 650</option>
+                <option>650–699</option>
+                <option>700–749</option>
+                <option>750+</option>
+                <option>Not sure</option>
+              </select>
+            </div>
+          </div>
+
+          <label class="check">
+            <input type="checkbox" name="consent" value="true" required>
+            <span>
+              I consent to LOANSMEET using these details to process
+              my enquiry and contact me about the request.
+            </span>
+          </label>
+
+          <button class="btn primary big-btn">
+            Submit My Requirement →
+          </button>
+
+          <div id="applyError" class="error"></div>
+          <div id="applySuccess" class="success"></div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
 </section>
 
-<section class="section" id="contact">
-<div class="container">
-<div class="cta">
-<div class="kicker">05 · SUPPORT</div>
-<h2>Need a person? We're here.</h2>
-<p>Get guidance whenever you need it.</p>
-<a class="btn gold" href="/customer">Open Customer Workspace</a>
-</div>
-</div>
+<!-- TRACK -->
+<section class="section" id="track">
+  <div class="wrap">
+
+    <div class="section-head">
+      <div>
+        <div class="kicker">06 · APPLICATION TRACKING</div>
+        <h2>Track Your Application</h2>
+      </div>
+
+      <p>
+        Use the Application ID and private tracking token from your confirmation.
+      </p>
+    </div>
+
+    <div class="panel">
+
+      <form id="trackForm" class="form two">
+
+        <div class="field">
+          <label>Application ID</label>
+          <input name="code" placeholder="LM-..." required>
+        </div>
+
+        <div class="field">
+          <label>Private Tracking Token</label>
+          <input name="token" required>
+        </div>
+
+        <button class="btn primary">
+          Track Application
+        </button>
+
+        <div></div>
+
+      </form>
+
+      <div id="trackResult" class="result"></div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section class="section" id="support">
+  <div class="wrap">
+
+    <div class="cta">
+
+      <div>
+        <div class="kicker">07 · SUPPORT</div>
+        <h2>Need Help?</h2>
+
+        <p>
+          Ask a question, request a callback or raise a support request.
+        </p>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="#supportForm">Request Callback</a>
+        <a class="btn" href="/customer">Customer Workspace</a>
+        <a class="btn" href="/partner">Partner Portal</a>
+      </div>
+
+    </div>
+
+    <div class="panel" id="supportForm">
+
+      <form id="supportFormEl" class="form">
+
+        <div class="form two">
+          <div class="field">
+            <label>Name</label>
+            <input name="name" required>
+          </div>
+
+          <div class="field">
+            <label>Mobile</label>
+            <input name="mobile">
+          </div>
+        </div>
+
+        <div class="form two">
+          <div class="field">
+            <label>Email</label>
+            <input name="email" type="email">
+          </div>
+
+          <div class="field">
+            <label>Subject</label>
+            <input name="subject" value="Callback request" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Message</label>
+          <textarea name="message" rows="4" required>I would like a callback from the LOANSMEET team.</textarea>
+        </div>
+
+        <button class="btn primary">
+          Send Support Request
+        </button>
+
+        <div id="supportMsg" class="success"></div>
+
+      </form>
+
+    </div>
+
+  </div>
 </section>
 
 </main>
 
-<footer>
-<div class="container">
-<b style="color:#e9c15b;font-size:22px">LOANSMEET</b>
-<p>Loan assistance and lead-generation platform.</p>
-</div>
+<footer class="footer">
+
+  <div class="wrap footer-grid">
+
+    <div>
+      <img src="/logo.svg" alt="LOANSMEET" class="footer-logo">
+
+      <p class="fine">
+        Loan assistance and lead-generation platform.
+        LOANSMEET is not a lender. Final approval, rates,
+        tenure, documents and terms are decided by the
+        relevant lending partner.
+      </p>
+    </div>
+
+    <div>
+      <b>Explore</b>
+      <a href="#loans">Loan Categories</a>
+      <a href="#compare">Compare Products</a>
+      <a href="#tools">Smart Tools</a>
+    </div>
+
+    <div>
+      <b>Workspace</b>
+      <a href="/customer">Customer Dashboard</a>
+      <a href="/partner">Partner Dashboard</a>
+      <a href="/admin">Admin</a>
+    </div>
+
+    <div>
+      <b>Legal</b>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="#support">Support</a>
+    </div>
+
+  </div>
+
+  <div class="wrap fine copyright">
+    © LOANSMEET · Estimates are for guidance only. No approval or rate is guaranteed.
+  </div>
+
 </footer>
 
+<!-- AI -->
+<button class="ai-open" onclick="toggleAI()">
+  ✦ Ask LOANSMEET
+</button>
+
+<div class="ai" id="ai">
+
+  <div class="ai-head">
+    <b>LOANSMEET AI</b>
+    <button class="btn" onclick="toggleAI()">×</button>
+  </div>
+
+  <div class="messages" id="messages">
+    <div class="msg bot">
+      Hi. Ask me about loan types, documents, EMI or the application process.
+    </div>
+  </div>
+
+  <form class="ai-input" id="aiForm">
+    <input id="aiText" placeholder="Ask a question…">
+    <button class="btn primary">Send</button>
+  </form>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-function calculate(){
-const p=+document.getElementById("amount").value;
-const annual=+document.getElementById("rate").value;
-const n=+document.getElementById("months").value;
-const r=annual/1200;
-const emi=r===0?p/n:p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-document.getElementById("result").innerHTML=
-"Estimated EMI: ₹"+Math.round(emi).toLocaleString("en-IN");
+/* INTRO */
+const intro = document.getElementById('brandIntro');
+
+if(sessionStorage.getItem('lm_intro_seen')){
+  intro?.classList.add('hide');
+}else{
+  sessionStorage.setItem('lm_intro_seen','1');
+  setTimeout(()=>intro?.classList.add('hide'),6500);
 }
 
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting)e.target.classList.add("show")
-})
-},{threshold:.12});
+/* MOBILE MENU */
+document.getElementById('menuBtn')?.addEventListener('click',()=>{
+  document.querySelector('.navlinks')?.classList.toggle('open');
+});
 
-document.querySelectorAll(".card,.panel,.stat,.cta").forEach(e=>{
-e.classList.add("reveal");
-observer.observe(e)
+/* REVEAL */
+const revealTargets=[
+  ...document.querySelectorAll(
+    '.section-head,.loan,.tool,.feature,.panel,.cta,.hero-card'
+  )
+];
+
+revealTargets.forEach((el,i)=>{
+  el.classList.add('reveal');
+  el.style.transitionDelay=Math.min(i%6,5)*60+'ms';
+});
+
+requestAnimationFrame(()=>{
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.12});
+
+  revealTargets.forEach(e=>io.observe(e));
+});
+
+/* HELPERS */
+const $=s=>document.querySelector(s);
+
+const state={
+  loans:[],
+  products:[]
+};
+
+async function api(url,opt={}){
+  const r=await fetch(url,{
+    ...opt,
+    headers:{
+      'Content-Type':'application/json',
+      ...(opt.headers||{})
+    }
+  });
+
+  const j=await r.json();
+
+  if(!r.ok){
+    throw Error(j.error||'Request failed');
+  }
+
+  return j;
+}
+
+function esc(v){
+  return String(v??'').replace(/[&<>"']/g,m=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[m]));
+}
+
+function money(v){
+  return '₹'+Number(v||0).toLocaleString('en-IN');
+}
+
+function toast(m){
+  const t=$('#toast');
+  t.textContent=m;
+  t.style.display='block';
+
+  setTimeout(()=>{
+    t.style.display='none';
+  },3500);
+}
+
+/* INIT */
+async function init(){
+
+  state.loans=await api('/api/loan-types');
+
+  $('#loanGrid').innerHTML=state.loans.map((x,i)=>`
+    <a class="loan" href="#apply"
+       onclick="document.getElementById('applyLoan').value=${JSON.stringify(x)}">
+
+      <div class="icon">${String(i+1).padStart(2,'0')}</div>
+
+      <b>${esc(x)}</b>
+
+      <span>Explore this requirement →</span>
+
+    </a>
+  `).join('');
+
+  ['#applyLoan','#finderType'].forEach(s=>{
+    $(s).innerHTML=state.loans
+      .map(x=>`<option>${esc(x)}</option>`)
+      .join('');
+  });
+
+  try{
+    state.products=await api('/api/loan-products');
+  }catch{
+    state.products=[];
+  }
+
+  renderCompare();
+}
+
+function renderCompare(){
+
+  const rows=state.products.length
+    ? state.products
+    : state.loans.map(x=>({
+        name:x,
+        category:x,
+        min_amount:0,
+        max_amount:0,
+        min_tenure:0,
+        max_tenure:0,
+        eligibility:'Partner-dependent'
+      }));
+
+  $('#compareRows').innerHTML=rows.slice(0,30).map(x=>`
+    <tr>
+      <td><b>${esc(x.name)}</b></td>
+      <td>${esc(x.category)}</td>
+      <td>
+        ${
+          x.min_amount||x.max_amount
+          ? money(x.min_amount)+' – '+money(x.max_amount)
+          : 'Configured per product'
+        }
+      </td>
+      <td>
+        ${
+          x.min_tenure||x.max_tenure
+          ? `${x.min_tenure}–${x.max_tenure} months`
+          : 'Partner-dependent'
+        }
+      </td>
+      <td>${esc(x.eligibility||'Partner-dependent')}</td>
+    </tr>
+  `).join('') || `
+    <tr>
+      <td colspan="5" class="muted">
+        No products configured yet.
+      </td>
+    </tr>
+  `;
+}
+
+/* EMI */
+$('#emiForm').onsubmit=async e=>{
+  e.preventDefault();
+
+  try{
+
+    const j=await api('/api/calculate-emi',{
+      method:'POST',
+      body:JSON.stringify(
+        Object.fromEntries(new FormData(e.currentTarget))
+      )
+    });
+
+    $('#emiResult').style.display='block';
+
+    $('#emiResult').innerHTML=`
+      <div class="tiny">Estimated Monthly EMI</div>
+      <div class="big">${money(j.emi)}</div>
+      <div class="muted">
+        Total payment ${money(j.totalPayment)}
+        · Interest ${money(j.totalInterest)}
+      </div>
+    `;
+
+  }catch(x){
+    toast(x.message);
+  }
+};
+
+/* ELIGIBILITY */
+$('#eligForm').onsubmit=e=>{
+  e.preventDefault();
+
+  const d=Object.fromEntries(new FormData(e.currentTarget));
+  const income=+d.income||0;
+  const emi=+d.existingEmi||0;
+
+  const score=
+    d.cibil==='750+'?3:
+    d.cibil==='700–749'?2:
+    d.cibil==='650–699'?1:0;
+
+  const ratio=income?emi/income:1;
+
+  let label=
+    score>=2&&ratio<.5
+      ? 'Stronger Indicative Profile'
+      : score>=1&&ratio<.6
+        ? 'Needs Partner Review'
+        : 'More Review May Be Needed';
+
+  $('#eligResult').style.display='block';
+
+  $('#eligResult').innerHTML=`
+    <div class="tiny">Indicative Result</div>
+    <div class="big">${label}</div>
+    <div class="muted">
+      This is not a lender eligibility decision or approval.
+    </div>
+  `;
+};
+
+/* FINDER */
+$('#finderForm').onsubmit=e=>{
+  e.preventDefault();
+
+  const d=Object.fromEntries(new FormData(e.currentTarget));
+  const amount=+d.amount||0;
+  const type=d.type;
+
+  let matches=state.products.filter(p=>
+    (
+      String(p.category).toLowerCase().includes(type.toLowerCase()) ||
+      String(p.name).toLowerCase().includes(type.toLowerCase())
+    ) &&
+    (!p.max_amount||amount<=p.max_amount) &&
+    (!p.min_amount||amount>=p.min_amount)
+  );
+
+  if(!matches.length){
+    matches=state.products
+      .filter(p=>
+        String(p.category)
+        .toLowerCase()
+        .includes(type.split(' ')[0].toLowerCase())
+      )
+      .slice(0,3);
+  }
+
+  $('#finderResult').style.display='block';
+
+  $('#finderResult').innerHTML=matches.length
+    ? matches.slice(0,3).map(p=>`
+        <div class="finder-match">
+          <b>${esc(p.name)}</b>
+          <div class="muted">
+            ${esc(p.description||'Product configured for '+p.category)}
+          </div>
+        </div>
+      `).join('')
+    : `
+      <div class="muted">
+        No configured match yet.
+        You can still submit your requirement for team guidance.
+      </div>
+    `;
+};
+
+/* APPLY */
+$('#applyForm').onsubmit=async e=>{
+  e.preventDefault();
+
+  $('#applyError').textContent='';
+
+  const f=new FormData(e.currentTarget);
+  const d=Object.fromEntries(f);
+
+  d.consent=true;
+
+  try{
+
+    const j=await api('/api/leads',{
+      method:'POST',
+      body:JSON.stringify(d)
+    });
+
+    $('#applySuccess').style.display='block';
+
+    $('#applySuccess').innerHTML=`
+      <b>Application received.</b><br>
+      Application ID:
+      <strong>${esc(j.applicationId)}</strong><br>
+      <small>
+        Private tracking token:
+        ${esc(j.trackingToken||'Not available')}
+      </small>
+
+      <br>
+
+      <a class="btn"
+         style="display:inline-block;margin-top:10px"
+         href="#track">
+         Track this Application
+      </a>
+    `;
+
+    e.currentTarget.reset();
+
+    sessionStorage.setItem(
+      'lm_last_application',
+      JSON.stringify({
+        code:j.applicationId,
+        token:j.trackingToken
+      })
+    );
+
+    toast('Application submitted successfully');
+
+  }catch(x){
+
+    $('#applyError').textContent=x.message;
+
+  }
+};
+
+/* TRACK */
+$('#trackForm').onsubmit=async e=>{
+  e.preventDefault();
+
+  const d=Object.fromEntries(
+    new FormData(e.currentTarget)
+  );
+
+  try{
+
+    const j=await api(
+      '/api/application/'+
+      encodeURIComponent(d.code)+
+      '?token='+
+      encodeURIComponent(d.token)
+    );
+
+    $('#trackResult').style.display='block';
+
+    $('#trackResult').innerHTML=`
+
+      <div class="pill">
+        ${esc(j.application.status)}
+      </div>
+
+      <h3>
+        ${esc(j.application.code)}
+        ·
+        ${esc(j.application.loanType)}
+      </h3>
+
+      <div class="muted">
+        ${money(j.application.loanAmount)}
+        ·
+        ${esc(j.application.city)}
+      </div>
+
+      <div class="timeline">
+
+        ${j.timeline.map((x,i)=>`
+
+          <div class="event">
+
+            <div class="circle">${i+1}</div>
+
+            <div>
+              <b>${esc(x.status)}</b>
+
+              <div class="muted">
+                ${esc(x.note||'Status update')}
+                ·
+                ${esc(x.created_at)}
+              </div>
+            </div>
+
+          </div>
+
+        `).join('')}
+
+      </div>
+    `;
+
+  }catch(x){
+
+    $('#trackResult').style.display='block';
+
+    $('#trackResult').innerHTML=`
+      <div class="error">
+        ${esc(x.message)}
+      </div>
+    `;
+  }
+};
+
+/* SUPPORT */
+$('#supportFormEl').onsubmit=async e=>{
+  e.preventDefault();
+
+  const d=Object.fromEntries(
+    new FormData(e.currentTarget)
+  );
+
+  try{
+
+    const j=await api('/api/support',{
+      method:'POST',
+      body:JSON.stringify(d)
+    });
+
+    $('#supportMsg').style.display='block';
+
+    $('#supportMsg').textContent=
+      'Support request created. Ticket #'+j.ticketId;
+
+    e.currentTarget.reset();
+
+  }catch(x){
+
+    toast(x.message);
+
+  }
+};
+
+/* AI */
+function toggleAI(){
+
+  $('#ai').style.display=
+    $('#ai').style.display==='block'
+      ? 'none'
+      : 'block';
+}
+
+$('#aiForm').onsubmit=async e=>{
+  e.preventDefault();
+
+  const q=$('#aiText').value.trim();
+
+  if(!q)return;
+
+  $('#messages').insertAdjacentHTML(
+    'beforeend',
+    `<div class="msg user">${esc(q)}</div>`
+  );
+
+  $('#aiText').value='';
+
+  try{
+
+    const j=await api('/api/ai',{
+      method:'POST',
+      body:JSON.stringify({
+        message:q,
+        language:'gu'
+      })
+    });
+
+    $('#messages').insertAdjacentHTML(
+      'beforeend',
+      `<div class="msg bot">${esc(j.answer)}</div>`
+    );
+
+    $('#messages').scrollTop=99999;
+
+  }catch(x){
+
+    toast(x.message);
+
+  }
+};
+
+init().catch(()=>{
+  toast('Some product data is unavailable right now.');
 });
 </script>
 
