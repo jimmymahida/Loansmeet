@@ -24,23 +24,13 @@
 <header class="nav"><div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:18px">
 <a class="brand" href="#top"><img src="/assets/loansmeet-logo.png" alt="LOANSMEET"></a>
 <nav class="navlinks">
-  <nav class="navlinks">
-  <a href="#loans">Loans</a>
-  <a href="#tools">Tools</a>
-  <a href="#how">How it works</a>
-  <a href="#track">Track</a>
-  <a href="#support">Support</a>
-
-  <a class="mobile-menu-only" href="/admin">Admin Login</a>
-  <a class="mobile-menu-only" href="/partner">Partner Login</a>
-  <a class="mobile-menu-only" href="/customer">Customer Login</a>
-</nav>
 <a href="#top">Home</a><a href="#loans">Loans</a><a href="#tools">Tools</a><a href="#how">Journey</a><a href="#apply">Apply</a><a href="#support">Contact</a>
 </nav>
 <div class="nav-actions">
 <a class="btn ghost" href="/customer">My account</a>
 <a class="btn primary" href="#apply">Apply now</a>
-<button class="btn mobile" id="menuBtn" type="button" onclick="toggleMobileMenu()">Menu</button></div>
+<button class="btn mobile" onclick="document.querySelector('.navlinks').style.display=document.querySelector('.navlinks').style.display==='flex'?'none':'flex'">Menu</button>
+</div>
 </div></header>
 
 <main id="top">
@@ -345,34 +335,6 @@ requestAnimationFrame(()=>{
 
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
-  function toggleMobileMenu(){
-  const menu = document.querySelector('.navlinks');
-  const btn = document.getElementById('menuBtn');
-
-  if(!menu) return;
-
-  const isOpen = menu.classList.toggle('open');
-
-  document.body.classList.toggle('menu-open', isOpen);
-
-  if(btn){
-    btn.textContent = isOpen ? 'Close' : 'Menu';
-  }
-}
-
-document.addEventListener('click', function(e){
-  const menu = document.querySelector('.navlinks');
-  const btn = document.getElementById('menuBtn');
-
-  if(!menu || !menu.classList.contains('open')) return;
-
-  if(e.target.closest('.navlinks a')){
-    menu.classList.remove('open');
-    document.body.classList.remove('menu-open');
-
-    if(btn) btn.textContent = 'Menu';
-  }
-});
 
 const state={
   loans:[],
