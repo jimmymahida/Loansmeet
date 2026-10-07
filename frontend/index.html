@@ -335,6 +335,34 @@ requestAnimationFrame(()=>{
 
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
+  function toggleMobileMenu(){
+  const menu = document.querySelector('.navlinks');
+  const btn = document.getElementById('menuBtn');
+
+  if(!menu) return;
+
+  const isOpen = menu.classList.toggle('open');
+
+  document.body.classList.toggle('menu-open', isOpen);
+
+  if(btn){
+    btn.textContent = isOpen ? 'Close' : 'Menu';
+  }
+}
+
+document.addEventListener('click', function(e){
+  const menu = document.querySelector('.navlinks');
+  const btn = document.getElementById('menuBtn');
+
+  if(!menu || !menu.classList.contains('open')) return;
+
+  if(e.target.closest('.navlinks a')){
+    menu.classList.remove('open');
+    document.body.classList.remove('menu-open');
+
+    if(btn) btn.textContent = 'Menu';
+  }
+});
 
 const state={
   loans:[],
