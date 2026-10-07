@@ -84,7 +84,7 @@
     <div class="max-w-4xl mx-auto space-y-8">
       <div class="text-center space-y-2">
         <h2 class="text-3xl font-bold text-goldAccent">EMI Calculator</h2>
-        <p class="text-slate-400">Calculate your monthly EMI and plan your finances better[cite: 2].</p>
+        <p class="text-slate-400">Calculate your monthly EMI and plan your finances better.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div class="space-y-6">
@@ -127,19 +127,19 @@
     }
 
     async function calculateEmi() {
-      const principal = Number(document.getElementById('principalInput').value);
-      const annualInterestRate = Number(document.getElementById('interestInput').value);
+      const amount = Number(document.getElementById('principalInput').value);
+      const rate = Number(document.getElementById('interestInput').value);
       const tenureYears = Number(document.getElementById('tenureYearsInput').value);
-      const tenureMonths = tenureYears * 12; // Safely converting years to months as required by backend API
+      const tenure = tenureYears * 12; // Months ma convert karyu
 
       try {
         const response = await fetch('/api/calculate-emi', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ principal, annualInterestRate, tenureMonths })
+          body: JSON.stringify({ amount, rate, tenure })
         });
         const data = await response.json();
-        if (data.success) {
+        if (data.ok) {
           document.getElementById('resultEmi').innerText = `₹ ${data.emi.toLocaleString('en-IN')}`;
           document.getElementById('resultInterest').innerText = `₹ ${data.totalInterest.toLocaleString('en-IN')}`;
           document.getElementById('resultTotal').innerText = `₹ ${data.totalPayment.toLocaleString('en-IN')}`;
