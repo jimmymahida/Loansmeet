@@ -1,46 +1,44 @@
-Changelog
-=========
+# Changelog
 
-v0.6.0
-------
+All notable changes to this project will be documented in this file.
 
-- Updated "devDependencies" versions to fix vulnerability alerts
-- Dropped support of io.js and node.js v0.12.x and lower since new versions of
-  "devDependencies" couldn't work with those old node.js versions
-  (minimal supported version of node.js now is v4.0.0)
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-v0.5.1
-------
+## [v1.1.2](https://github.com/es-shims/es-object-atoms/compare/v1.1.1...v1.1.2) - 2026-05-22
 
-- Fix prototype pollution vulnerability (thanks to @mwakerman for the PR)
-- Avoid using deprecated Buffer API (thanks to @ChALkeR for the PR)
+### Commits
 
-v0.5.0
-------
+- [Dev Deps] update `@ljharb/eslint-config`, `@ljharb/tsconfig`, `auto-changelog`, `eslint`, `npmignore` [`41e3d94`](https://github.com/es-shims/es-object-atoms/commit/41e3d94f6b49237fa490ec598e068f170c8b161e)
+- [types] improve `isObject` type [`758edc2`](https://github.com/es-shims/es-object-atoms/commit/758edc2280fa6993a294a55957a43cee5951bf51)
 
-- Auto-testing provided by Travis CI;
-- Support older Node.JS versions (`v0.11.x` and `v0.10.x`);
-- Removed tests files from npm package.
+## [v1.1.1](https://github.com/es-shims/es-object-atoms/compare/v1.1.0...v1.1.1) - 2025-01-14
 
-v0.4.2
-------
+### Commits
 
-- Fix for `null` as an argument.
+- [types] `ToObject`: improve types [`cfe8c8a`](https://github.com/es-shims/es-object-atoms/commit/cfe8c8a105c44820cb22e26f62d12ef0ad9715c8)
 
-v0.4.1
-------
+## [v1.1.0](https://github.com/es-shims/es-object-atoms/compare/v1.0.1...v1.1.0) - 2025-01-14
 
-- Removed test code from <b>npm</b> package
-  ([see pull request #21](https://github.com/unclechu/node-deep-extend/pull/21));
-- Increased minimal version of Node from `0.4.0` to `0.12.0`
-  (because can't run tests on lesser version anyway).
+### Commits
 
-v0.4.0
-------
+- [New] add `isObject` [`51e4042`](https://github.com/es-shims/es-object-atoms/commit/51e4042df722eb3165f40dc5f4bf33d0197ecb07)
 
-- **WARNING!** Broken backward compatibility with `v0.3.x`;
-- Fixed bug with extending arrays instead of cloning;
-- Deep cloning for arrays;
-- Check for own property;
-- Fixed some documentation issues;
-- Strict JS mode.
+## [v1.0.1](https://github.com/es-shims/es-object-atoms/compare/v1.0.0...v1.0.1) - 2025-01-13
+
+### Commits
+
+- [Dev Deps] update `@ljharb/eslint-config`, `@ljharb/tsconfig`, `@types/tape`, `auto-changelog`, `tape` [`38ab9eb`](https://github.com/es-shims/es-object-atoms/commit/38ab9eb00b62c2f4668644f5e513d9b414ebd595)
+- [types] improve types [`7d1beb8`](https://github.com/es-shims/es-object-atoms/commit/7d1beb887958b78b6a728a210a1c8370ab7e2aa1)
+- [Tests] replace `aud` with `npm audit` [`25863ba`](https://github.com/es-shims/es-object-atoms/commit/25863baf99178f1d1ad33d1120498db28631907e)
+- [Dev Deps] add missing peer dep [`c012309`](https://github.com/es-shims/es-object-atoms/commit/c0123091287e6132d6f4240496340c427433df28)
+
+## v1.0.0 - 2024-03-16
+
+### Commits
+
+- Initial implementation, tests, readme, types [`f1499db`](https://github.com/es-shims/es-object-atoms/commit/f1499db7d3e1741e64979c61d645ab3137705e82)
+- Initial commit [`99eedc7`](https://github.com/es-shims/es-object-atoms/commit/99eedc7b5fde38a50a28d3c8b724706e3e4c5f6a)
+- [meta] rename repo [`fc851fa`](https://github.com/es-shims/es-object-atoms/commit/fc851fa70616d2d182aaf0bd02c2ed7084dea8fa)
+- npm init [`b909377`](https://github.com/es-shims/es-object-atoms/commit/b909377c50049bd0ec575562d20b0f9ebae8947f)
+- Only apps should have lockfiles [`7249edd`](https://github.com/es-shims/es-object-atoms/commit/7249edd2178c1b9ddfc66ffcc6d07fdf0d28efc1)

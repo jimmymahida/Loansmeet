@@ -1,91 +1,63 @@
-Deep Extend
-===========
+# es-object-atoms <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
 
-Recursive object extending.
+[![github actions][actions-image]][actions-url]
+[![coverage][codecov-image]][codecov-url]
+[![License][license-image]][license-url]
+[![Downloads][downloads-image]][downloads-url]
 
-[![Build Status](https://api.travis-ci.org/unclechu/node-deep-extend.svg?branch=master)](https://travis-ci.org/unclechu/node-deep-extend)
+[![npm badge][npm-badge-png]][package-url]
 
-[![NPM](https://nodei.co/npm/deep-extend.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/deep-extend/)
+ES Object-related atoms: Object, ToObject, RequireObjectCoercible.
 
-Install
--------
+## Example
 
-```bash
-$ npm install deep-extend
+```js
+const assert = require('assert');
+
+const $Object = require('es-object-atoms');
+const isObject = require('es-object-atoms/isObject');
+const ToObject = require('es-object-atoms/ToObject');
+const RequireObjectCoercible = require('es-object-atoms/RequireObjectCoercible');
+
+assert.equal($Object, Object);
+assert.throws(() => ToObject(null), TypeError);
+assert.throws(() => ToObject(undefined), TypeError);
+assert.throws(() => RequireObjectCoercible(null), TypeError);
+assert.throws(() => RequireObjectCoercible(undefined), TypeError);
+
+assert.equal(isObject(undefined), false);
+assert.equal(isObject(null), false);
+assert.equal(isObject({}), true);
+assert.equal(isObject([]), true);
+assert.equal(isObject(function () {}), true);
+
+assert.deepEqual(RequireObjectCoercible(true), true);
+assert.deepEqual(ToObject(true), Object(true));
+
+const obj = {};
+assert.equal(RequireObjectCoercible(obj), obj);
+assert.equal(ToObject(obj), obj);
 ```
 
-Usage
------
+## Tests
+Simply clone the repo, `npm install`, and run `npm test`
 
-```javascript
-var deepExtend = require('deep-extend');
-var obj1 = {
-  a: 1,
-  b: 2,
-  d: {
-    a: 1,
-    b: [],
-    c: { test1: 123, test2: 321 }
-  },
-  f: 5,
-  g: 123,
-  i: 321,
-  j: [1, 2]
-};
-var obj2 = {
-  b: 3,
-  c: 5,
-  d: {
-    b: { first: 'one', second: 'two' },
-    c: { test2: 222 }
-  },
-  e: { one: 1, two: 2 },
-  f: [],
-  g: (void 0),
-  h: /abc/g,
-  i: null,
-  j: [3, 4]
-};
+## Security
 
-deepExtend(obj1, obj2);
+Please email [@ljharb](https://github.com/ljharb) or see https://tidelift.com/security if you have a potential security vulnerability to report.
 
-console.log(obj1);
-/*
-{ a: 1,
-  b: 3,
-  d:
-   { a: 1,
-     b: { first: 'one', second: 'two' },
-     c: { test1: 123, test2: 222 } },
-  f: [],
-  g: undefined,
-  c: 5,
-  e: { one: 1, two: 2 },
-  h: /abc/g,
-  i: null,
-  j: [3, 4] }
-*/
-```
-
-Unit testing
-------------
-
-```bash
-$ npm test
-```
-
-Changelog
----------
-
-[CHANGELOG.md](./CHANGELOG.md)
-
-Any issues?
------------
-
-Please, report about issues
-[here](https://github.com/unclechu/node-deep-extend/issues).
-
-License
--------
-
-[MIT](./LICENSE)
+[package-url]: https://npmjs.org/package/es-object-atoms
+[npm-version-svg]: https://versionbadg.es/ljharb/es-object-atoms.svg
+[deps-svg]: https://david-dm.org/ljharb/es-object-atoms.svg
+[deps-url]: https://david-dm.org/ljharb/es-object-atoms
+[dev-deps-svg]: https://david-dm.org/ljharb/es-object-atoms/dev-status.svg
+[dev-deps-url]: https://david-dm.org/ljharb/es-object-atoms#info=devDependencies
+[npm-badge-png]: https://nodei.co/npm/es-object-atoms.png?downloads=true&stars=true
+[license-image]: https://img.shields.io/npm/l/es-object-atoms.svg
+[license-url]: LICENSE
+[downloads-image]: https://img.shields.io/npm/dm/es-object.svg
+[downloads-url]: https://npm-stat.com/charts.html?package=es-object-atoms
+[codecov-image]: https://codecov.io/gh/ljharb/es-object-atoms/branch/main/graphs/badge.svg
+[codecov-url]: https://app.codecov.io/gh/ljharb/es-object-atoms/
+[actions-image]: https://img.shields.io/endpoint?url=https://github-actions-badge-u3jn4tfpocch.runkit.sh/ljharb/es-object-atoms
+[actions-url]: https://github.com/ljharb/es-object-atoms/actions
