@@ -1,42 +1,29 @@
 {
-  "name": "strip-json-comments",
-  "version": "2.0.1",
-  "description": "Strip comments from JSON. Lets you use comments in your JSON files!",
-  "license": "MIT",
-  "repository": "sindresorhus/strip-json-comments",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
+  "name": "wrappy",
+  "version": "1.0.2",
+  "description": "Callback wrapping utility",
+  "main": "wrappy.js",
+  "files": [
+    "wrappy.js"
+  ],
+  "directories": {
+    "test": "test"
   },
-  "engines": {
-    "node": ">=0.10.0"
+  "dependencies": {},
+  "devDependencies": {
+    "tap": "^2.3.1"
   },
   "scripts": {
-    "test": "xo && ava"
+    "test": "tap --coverage test/*.js"
   },
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "json",
-    "strip",
-    "remove",
-    "delete",
-    "trim",
-    "comments",
-    "multiline",
-    "parse",
-    "config",
-    "configuration",
-    "conf",
-    "settings",
-    "util",
-    "env",
-    "environment"
-  ],
-  "devDependencies": {
-    "ava": "*",
-    "xo": "*"
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/wrappy"
+  },
+  "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/npm/wrappy/issues"
+  },
+  "homepage": "https://github.com/npm/wrappy"
 }
