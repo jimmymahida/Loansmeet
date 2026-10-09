@@ -1,8 +1,6 @@
-# Local database and runtime files
-backend/loanleads.db
+node_modules/
 backend/loanleads.db-shm
 backend/loanleads.db-wal
-backend/.env
-node_modules/
+backend/uploads/
+.env
 .DS_Store
-npm-debug.log*
