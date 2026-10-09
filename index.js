@@ -1,24 +1,70 @@
-'use strict'
-/* eslint-env mocha */
-/* eslint no-proto: 0 */
-var assert = require('assert')
-var setPrototypeOf = require('..')
+'use strict';
+var singleComment = 1;
+var multiComment = 2;
 
-describe('setProtoOf(obj, proto)', function () {
-  it('should merge objects', function () {
-    var obj = { a: 1, b: 2 }
-    var proto = { b: 3, c: 4 }
-    var mergeObj = setPrototypeOf(obj, proto)
+function stripWithoutWhitespace() {
+	return '';
+}
 
-    if (Object.getPrototypeOf) {
-      assert.strictEqual(Object.getPrototypeOf(obj), proto)
-    } else if ({ __proto__: [] } instanceof Array) {
-      assert.strictEqual(obj.__proto__, proto)
-    } else {
-      assert.strictEqual(obj.a, 1)
-      assert.strictEqual(obj.b, 2)
-      assert.strictEqual(obj.c, 4)
-    }
-    assert.strictEqual(mergeObj, obj)
-  })
-})
+function stripWithWhitespace(str, start, end) {
+	return str.slice(start, end).replace(/\S/g, ' ');
+}
+
+module.exports = function (str, opts) {
+	opts = opts || {};
+
+	var currentChar;
+	var nextChar;
+	var insideString = false;
+	var insideComment = false;
+	var offset = 0;
+	var ret = '';
+	var strip = opts.whitespace === false ? stripWithoutWhitespace : stripWithWhitespace;
+
+	for (var i = 0; i < str.length; i++) {
+		currentChar = str[i];
+		nextChar = str[i + 1];
+
+		if (!insideComment && currentChar === '"') {
+			var escaped = str[i - 1] === '\\' && str[i - 2] !== '\\';
+			if (!escaped) {
+				insideString = !insideString;
+			}
+		}
+
+		if (insideString) {
+			continue;
+		}
+
+		if (!insideComment && currentChar + nextChar === '//') {
+			ret += str.slice(offset, i);
+			offset = i;
+			insideComment = singleComment;
+			i++;
+		} else if (insideComment === singleComment && currentChar + nextChar === '\r\n') {
+			i++;
+			insideComment = false;
+			ret += strip(str, offset, i);
+			offset = i;
+			continue;
+		} else if (insideComment === singleComment && currentChar === '\n') {
+			insideComment = false;
+			ret += strip(str, offset, i);
+			offset = i;
+		} else if (!insideComment && currentChar + nextChar === '/*') {
+			ret += str.slice(offset, i);
+			offset = i;
+			insideComment = multiComment;
+			i++;
+			continue;
+		} else if (insideComment === multiComment && currentChar + nextChar === '*/') {
+			i++;
+			insideComment = false;
+			ret += strip(str, offset, i + 1);
+			offset = i + 1;
+			continue;
+		}
+	}
+
+	return ret + (insideComment ? strip(str.substr(offset)) : str.substr(offset));
+};
