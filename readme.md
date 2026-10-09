@@ -1,45 +1,75 @@
-# decompress-response [![Build Status](https://travis-ci.com/sindresorhus/decompress-response.svg?branch=master)](https://travis-ci.com/sindresorhus/decompress-response)
+# mimic-response [![Build Status](https://travis-ci.com/sindresorhus/mimic-response.svg?branch=master)](https://travis-ci.com/sindresorhus/mimic-response)
 
-> Decompress a HTTP response if needed
-
-Decompresses the [response](https://nodejs.org/api/http.html#http_class_http_incomingmessage) from [`http.request`](https://nodejs.org/api/http.html#http_http_request_options_callback) if it's gzipped, deflated or compressed with Brotli, otherwise just passes it through.
-
-Used by [`got`](https://github.com/sindresorhus/got).
+> Mimic a [Node.js HTTP response stream](https://nodejs.org/api/http.html#http_class_http_incomingmessage)
 
 ## Install
 
 ```
-$ npm install decompress-response
+$ npm install mimic-response
 ```
 
 ## Usage
 
 ```js
-const http = require('http');
-const decompressResponse = require('decompress-response');
+const stream = require('stream');
+const mimicResponse = require('mimic-response');
 
-http.get('https://sindresorhus.com', response => {
-	response = decompressResponse(response);
-});
+const responseStream = getHttpResponseStream();
+const myStream = new stream.PassThrough();
+
+mimicResponse(responseStream, myStream);
+
+console.log(myStream.statusCode);
+//=> 200
 ```
 
 ## API
 
-### decompressResponse(response)
+### mimicResponse(from, to)
 
-Returns the decompressed HTTP response stream.
+**Note #1:** The `from.destroy(error)` function is not proxied. You have to call it manually:
 
-#### response
+```js
+const stream = require('stream');
+const mimicResponse = require('mimic-response');
 
-Type: [`http.IncomingMessage`](https://nodejs.org/api/http.html#http_class_http_incomingmessage)
+const responseStream = getHttpResponseStream();
 
-The HTTP incoming stream with compressed data.
+const myStream = new stream.PassThrough({
+	destroy(error, callback) {
+		responseStream.destroy();
+
+		callback(error);
+	}
+});
+
+myStream.destroy();
+```
+
+Please note that `myStream` and `responseStream` never throws. The error is passed to the request instead.
+
+#### from
+
+Type: `Stream`
+
+[Node.js HTTP response stream.](https://nodejs.org/api/http.html#http_class_http_incomingmessage)
+
+#### to
+
+Type: `Stream`
+
+Any stream.
+
+## Related
+
+- [mimic-fn](https://github.com/sindresorhus/mimic-fn) - Make a function mimic another one
+- [clone-response](https://github.com/lukechilds/clone-response) - Clone a Node.js response stream
 
 ---
 
 <div align="center">
 	<b>
-		<a href="https://tidelift.com/subscription/pkg/npm-decompress-response?utm_source=npm-decompress-response&utm_medium=referral&utm_campaign=readme">Get professional support for this package with a Tidelift subscription</a>
+		<a href="https://tidelift.com/subscription/pkg/npm-mimic-response?utm_source=npm-mimic-response&utm_medium=referral&utm_campaign=readme">Get professional support for this package with a Tidelift subscription</a>
 	</b>
 	<br>
 	<sub>
