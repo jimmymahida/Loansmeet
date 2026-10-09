@@ -1,0 +1,67 @@
+/* Keep the admin workspace aligned with the customer site on smaller screens. */
+.admin-brand {
+  width: 220px;
+  max-width: 48vw;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .top .wrap {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+
+  .admin-brand {
+    width: 175px;
+  }
+
+  .top a {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .dash {
+    padding-top: 18px;
+  }
+
+  .row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .stats,
+  .two,
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .navtabs {
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+
+  .navtabs button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .card {
+    padding: 18px;
+  }
+}
