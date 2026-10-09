@@ -1,58 +1,56 @@
-1.3.3 / 2019-04-15
+1.2.1 / 2019-05-10
 ==================
 
-  * Fix Node.js 0.8 return value inconsistencies
+  * Improve error when `str` is not a string
 
-1.3.2 / 2017-09-09
+1.2.0 / 2016-06-01
 ==================
 
-  * perf: reduce overhead for full URLs
-  * perf: unroll the "fast-path" `RegExp`
+  * Add `combine` option to combine overlapping ranges
 
-1.3.1 / 2016-01-17
+1.1.0 / 2016-05-13
+==================
+
+  * Fix incorrectly returning -1 when there is at least one valid range
+  * perf: remove internal function
+
+1.0.3 / 2015-10-29
 ==================
 
   * perf: enable strict mode
 
-1.3.0 / 2014-08-09
+1.0.2 / 2014-09-08
 ==================
 
-  * Add `parseurl.original` for parsing `req.originalUrl` with fallback
-  * Return `undefined` if `req.url` is `undefined`
+  * Support Node.js 0.6
 
-1.2.0 / 2014-07-21
+1.0.1 / 2014-09-07
 ==================
 
-  * Cache URLs based on original value
-  * Remove no-longer-needed URL mis-parse work-around
-  * Simplify the "fast-path" `RegExp`
+  * Move repository to jshttp
 
-1.1.3 / 2014-07-08
+1.0.0 / 2013-12-11
 ==================
 
-  * Fix typo
+  * Add repository to package.json
+  * Add MIT license
 
-1.1.2 / 2014-07-08
+0.0.4 / 2012-06-17
 ==================
 
-  * Seriously fix Node.js 0.8 compatibility
+  * Change ret -1 for unsatisfiable and -2 when invalid
 
-1.1.1 / 2014-07-08
+0.0.3 / 2012-06-17
 ==================
 
-  * Fix Node.js 0.8 compatibility
+  * Fix last-byte-pos default to len - 1
 
-1.1.0 / 2014-07-08
+0.0.2 / 2012-06-14
 ==================
 
-  * Incorporate URL href-only parse fast-path
+  * Add `.type`
 
-1.0.1 / 2014-03-08
+0.0.1 / 2012-06-11
 ==================
 
-  * Add missing `require`
-
-1.0.0 / 2014-03-08
-==================
-
-  * Genesis from `connect`
+  * Initial release

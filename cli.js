@@ -1,8 +1,4 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
+var rc = require('./index')
 
-var mime = require('./mime.js');
-var file = process.argv[2];
-var type = mime.lookup(file);
-
-process.stdout.write(type + '\n');
-
+console.log(JSON.stringify(rc(process.argv[2]), false, 2))

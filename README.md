@@ -1,133 +1,106 @@
-# parseurl
+# readable-stream
 
-[![NPM Version][npm-version-image]][npm-url]
-[![NPM Downloads][npm-downloads-image]][npm-url]
-[![Node.js Version][node-image]][node-url]
-[![Build Status][travis-image]][travis-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
+***Node.js core streams for userland*** [![Build Status](https://travis-ci.com/nodejs/readable-stream.svg?branch=master)](https://travis-ci.com/nodejs/readable-stream)
 
-Parse a URL with memoization.
 
-## Install
+[![NPM](https://nodei.co/npm/readable-stream.png?downloads=true&downloadRank=true)](https://nodei.co/npm/readable-stream/)
+[![NPM](https://nodei.co/npm-dl/readable-stream.png?&months=6&height=3)](https://nodei.co/npm/readable-stream/)
 
-This is a [Node.js](https://nodejs.org/en/) module available through the
-[npm registry](https://www.npmjs.com/). Installation is done using the
-[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
-```sh
-$ npm install parseurl
-```
-
-## API
-
-```js
-var parseurl = require('parseurl')
-```
-
-### parseurl(req)
-
-Parse the URL of the given request object (looks at the `req.url` property)
-and return the result. The result is the same as `url.parse` in Node.js core.
-Calling this function multiple times on the same `req` where `req.url` does
-not change will return a cached parsed object, rather than parsing again.
-
-### parseurl.original(req)
-
-Parse the original URL of the given request object and return the result.
-This works by trying to parse `req.originalUrl` if it is a string, otherwise
-parses `req.url`. The result is the same as `url.parse` in Node.js core.
-Calling this function multiple times on the same `req` where `req.originalUrl`
-does not change will return a cached parsed object, rather than parsing again.
-
-## Benchmark
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/readabe-stream.svg)](https://saucelabs.com/u/readabe-stream)
 
 ```bash
-$ npm run-script bench
-
-> parseurl@1.3.3 bench nodejs-parseurl
-> node benchmark/index.js
-
-  http_parser@2.8.0
-  node@10.6.0
-  v8@6.7.288.46-node.13
-  uv@1.21.0
-  zlib@1.2.11
-  ares@1.14.0
-  modules@64
-  nghttp2@1.32.0
-  napi@3
-  openssl@1.1.0h
-  icu@61.1
-  unicode@10.0
-  cldr@33.0
-  tz@2018c
-
-> node benchmark/fullurl.js
-
-  Parsing URL "http://localhost:8888/foo/bar?user=tj&pet=fluffy"
-
-  4 tests completed.
-
-  fasturl            x 2,207,842 ops/sec ±3.76% (184 runs sampled)
-  nativeurl - legacy x   507,180 ops/sec ±0.82% (191 runs sampled)
-  nativeurl - whatwg x   290,044 ops/sec ±1.96% (189 runs sampled)
-  parseurl           x   488,907 ops/sec ±2.13% (192 runs sampled)
-
-> node benchmark/pathquery.js
-
-  Parsing URL "/foo/bar?user=tj&pet=fluffy"
-
-  4 tests completed.
-
-  fasturl            x 3,812,564 ops/sec ±3.15% (188 runs sampled)
-  nativeurl - legacy x 2,651,631 ops/sec ±1.68% (189 runs sampled)
-  nativeurl - whatwg x   161,837 ops/sec ±2.26% (189 runs sampled)
-  parseurl           x 4,166,338 ops/sec ±2.23% (184 runs sampled)
-
-> node benchmark/samerequest.js
-
-  Parsing URL "/foo/bar?user=tj&pet=fluffy" on same request object
-
-  4 tests completed.
-
-  fasturl            x  3,821,651 ops/sec ±2.42% (185 runs sampled)
-  nativeurl - legacy x  2,651,162 ops/sec ±1.90% (187 runs sampled)
-  nativeurl - whatwg x    175,166 ops/sec ±1.44% (188 runs sampled)
-  parseurl           x 14,912,606 ops/sec ±3.59% (183 runs sampled)
-
-> node benchmark/simplepath.js
-
-  Parsing URL "/foo/bar"
-
-  4 tests completed.
-
-  fasturl            x 12,421,765 ops/sec ±2.04% (191 runs sampled)
-  nativeurl - legacy x  7,546,036 ops/sec ±1.41% (188 runs sampled)
-  nativeurl - whatwg x    198,843 ops/sec ±1.83% (189 runs sampled)
-  parseurl           x 24,244,006 ops/sec ±0.51% (194 runs sampled)
-
-> node benchmark/slash.js
-
-  Parsing URL "/"
-
-  4 tests completed.
-
-  fasturl            x 17,159,456 ops/sec ±3.25% (188 runs sampled)
-  nativeurl - legacy x 11,635,097 ops/sec ±3.79% (184 runs sampled)
-  nativeurl - whatwg x    240,693 ops/sec ±0.83% (189 runs sampled)
-  parseurl           x 42,279,067 ops/sec ±0.55% (190 runs sampled)
+npm install --save readable-stream
 ```
 
-## License
+This package is a mirror of the streams implementations in Node.js.
 
-  [MIT](LICENSE)
+Full documentation may be found on the [Node.js website](https://nodejs.org/dist/v10.18.1/docs/api/stream.html).
 
-[coveralls-image]: https://badgen.net/coveralls/c/github/pillarjs/parseurl/master
-[coveralls-url]: https://coveralls.io/r/pillarjs/parseurl?branch=master
-[node-image]: https://badgen.net/npm/node/parseurl
-[node-url]: https://nodejs.org/en/download
-[npm-downloads-image]: https://badgen.net/npm/dm/parseurl
-[npm-url]: https://npmjs.org/package/parseurl
-[npm-version-image]: https://badgen.net/npm/v/parseurl
-[travis-image]: https://badgen.net/travis/pillarjs/parseurl/master
-[travis-url]: https://travis-ci.org/pillarjs/parseurl
+If you want to guarantee a stable streams base, regardless of what version of
+Node you, or the users of your libraries are using, use **readable-stream** *only* and avoid the *"stream"* module in Node-core, for background see [this blogpost](http://r.va.gg/2014/06/why-i-dont-use-nodes-core-stream-module.html).
+
+As of version 2.0.0 **readable-stream** uses semantic versioning.
+
+## Version 3.x.x
+
+v3.x.x of `readable-stream` is a cut from Node 10. This version supports Node 6, 8, and 10, as well as evergreen browsers, IE 11 and latest Safari. The breaking changes introduced by v3 are composed by the combined breaking changes in [Node v9](https://nodejs.org/en/blog/release/v9.0.0/) and [Node v10](https://nodejs.org/en/blog/release/v10.0.0/), as follows:
+
+1. Error codes: https://github.com/nodejs/node/pull/13310,
+   https://github.com/nodejs/node/pull/13291,
+   https://github.com/nodejs/node/pull/16589,
+   https://github.com/nodejs/node/pull/15042,
+   https://github.com/nodejs/node/pull/15665,
+   https://github.com/nodejs/readable-stream/pull/344
+2. 'readable' have precedence over flowing
+   https://github.com/nodejs/node/pull/18994
+3. make virtual methods errors consistent
+   https://github.com/nodejs/node/pull/18813
+4. updated streams error handling
+   https://github.com/nodejs/node/pull/18438
+5. writable.end should return this.
+   https://github.com/nodejs/node/pull/18780
+6. readable continues to read when push('')
+   https://github.com/nodejs/node/pull/18211
+7. add custom inspect to BufferList
+   https://github.com/nodejs/node/pull/17907
+8. always defer 'readable' with nextTick
+   https://github.com/nodejs/node/pull/17979
+
+## Version 2.x.x
+v2.x.x of `readable-stream` is a cut of the stream module from Node 8 (there have been no semver-major changes from Node 4 to 8). This version supports all Node.js versions from 0.8, as well as evergreen browsers and IE 10 & 11.
+
+### Big Thanks
+
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][sauce]
+
+# Usage
+
+You can swap your `require('stream')` with `require('readable-stream')`
+without any changes, if you are just using one of the main classes and
+functions.
+
+```js
+const {
+  Readable,
+  Writable,
+  Transform,
+  Duplex,
+  pipeline,
+  finished
+} = require('readable-stream')
+````
+
+Note that `require('stream')` will return `Stream`, while
+`require('readable-stream')` will return `Readable`. We discourage using
+whatever is exported directly, but rather use one of the properties as
+shown in the example above.
+
+# Streams Working Group
+
+`readable-stream` is maintained by the Streams Working Group, which
+oversees the development and maintenance of the Streams API within
+Node.js. The responsibilities of the Streams Working Group include:
+
+* Addressing stream issues on the Node.js issue tracker.
+* Authoring and editing stream documentation within the Node.js project.
+* Reviewing changes to stream subclasses within the Node.js project.
+* Redirecting changes to streams from the Node.js project to this
+  project.
+* Assisting in the implementation of stream providers within Node.js.
+* Recommending versions of `readable-stream` to be included in Node.js.
+* Messaging about the future of streams to give the community advance
+  notice of changes.
+
+<a name="members"></a>
+## Team Members
+
+* **Calvin Metcalf** ([@calvinmetcalf](https://github.com/calvinmetcalf)) &lt;calvin.metcalf@gmail.com&gt;
+  - Release GPG key: F3EF5F62A87FC27A22E643F714CE4FF5015AA242
+* **Mathias Buus** ([@mafintosh](https://github.com/mafintosh)) &lt;mathiasbuus@gmail.com&gt;
+* **Matteo Collina** ([@mcollina](https://github.com/mcollina)) &lt;matteo.collina@gmail.com&gt;
+  - Release GPG key: 3ABC01543F22DD2239285CDD818674489FBC127E
+* **Irina Shestak** ([@lrlna](https://github.com/lrlna)) &lt;shestak.irina@gmail.com&gt;
+* **Yoshua Wyuts** ([@yoshuawuyts](https://github.com/yoshuawuyts)) &lt;yoshuawuyts@gmail.com&gt;
+
+[sauce]: https://saucelabs.com

@@ -1,60 +1,59 @@
-/**
- * Usage: node test.js
- */
 
-var mime = require('../mime');
-var assert = require('assert');
-var path = require('path');
+var n = 'rc'+Math.random()
+var assert = require('assert')
 
-//
-// Test mime lookups
-//
+process.env[n+'_envOption'] = 42
 
-assert.equal('text/plain', mime.lookup('text.txt'));     // normal file
-assert.equal('text/plain', mime.lookup('TEXT.TXT'));     // uppercase
-assert.equal('text/plain', mime.lookup('dir/text.txt')); // dir + file
-assert.equal('text/plain', mime.lookup('.text.txt'));    // hidden file
-assert.equal('text/plain', mime.lookup('.txt'));         // nameless
-assert.equal('text/plain', mime.lookup('txt'));          // extension-only
-assert.equal('text/plain', mime.lookup('/txt'));         // extension-less ()
-assert.equal('text/plain', mime.lookup('\\txt'));        // Windows, extension-less
-assert.equal('application/octet-stream', mime.lookup('text.nope')); // unrecognized
-assert.equal('fallback', mime.lookup('text.fallback', 'fallback')); // alternate default
+var config = require('../')(n, {
+  option: true
+})
 
-//
-// Test extensions
-//
+console.log(config)
 
-assert.equal('txt', mime.extension(mime.types.text));
-assert.equal('html', mime.extension(mime.types.htm));
-assert.equal('bin', mime.extension('application/octet-stream'));
-assert.equal('bin', mime.extension('application/octet-stream '));
-assert.equal('html', mime.extension(' text/html; charset=UTF-8'));
-assert.equal('html', mime.extension('text/html; charset=UTF-8 '));
-assert.equal('html', mime.extension('text/html; charset=UTF-8'));
-assert.equal('html', mime.extension('text/html ; charset=UTF-8'));
-assert.equal('html', mime.extension('text/html;charset=UTF-8'));
-assert.equal('html', mime.extension('text/Html;charset=UTF-8'));
-assert.equal(undefined, mime.extension('unrecognized'));
+assert.equal(config.option, true)
+assert.equal(config.envOption, 42)
 
-//
-// Test node.types lookups
-//
+var customArgv = require('../')(n, {
+  option: true
+}, { // nopt-like argv
+  option: false,
+  envOption: 24,
+  argv: {
+    remain: [],
+    cooked: ['--no-option', '--envOption', '24'],
+    original: ['--no-option', '--envOption=24']
+  }
+})
 
-assert.equal('font/woff', mime.lookup('file.woff'));
-assert.equal('application/octet-stream', mime.lookup('file.buffer'));
-// TODO: Uncomment once #157 is resolved
-// assert.equal('audio/mp4', mime.lookup('file.m4a'));
-assert.equal('font/otf', mime.lookup('file.otf'));
+console.log(customArgv)
 
-//
-// Test charsets
-//
+assert.equal(customArgv.option, false)
+assert.equal(customArgv.envOption, 24)
 
-assert.equal('UTF-8', mime.charsets.lookup('text/plain'));
-assert.equal('UTF-8', mime.charsets.lookup(mime.types.js));
-assert.equal('UTF-8', mime.charsets.lookup(mime.types.json));
-assert.equal(undefined, mime.charsets.lookup(mime.types.bin));
-assert.equal('fallback', mime.charsets.lookup('application/octet-stream', 'fallback'));
+var fs = require('fs')
+var path = require('path')
+var jsonrc = path.resolve('.' + n + 'rc');
 
-console.log('\nAll tests passed');
+fs.writeFileSync(jsonrc, [
+  '{',
+    '// json overrides default',
+    '"option": false,',
+    '/* env overrides json */',
+    '"envOption": 24',
+  '}'
+].join('\n'));
+
+var commentedJSON = require('../')(n, {
+  option: true
+})
+
+fs.unlinkSync(jsonrc);
+
+console.log(commentedJSON)
+
+assert.equal(commentedJSON.option, false)
+assert.equal(commentedJSON.envOption, 42)
+
+assert.equal(commentedJSON.config, jsonrc)
+assert.equal(commentedJSON.configs.length, 1)
+assert.equal(commentedJSON.configs[0], jsonrc)
