@@ -1,263 +1,158 @@
-'use strict';
+/**
+ * Expose `pathToRegexp`.
+ */
 
-function hasKey(obj, keys) {
-	var o = obj;
-	keys.slice(0, -1).forEach(function (key) {
-		o = o[key] || {};
-	});
+module.exports = pathToRegexp;
 
-	var key = keys[keys.length - 1];
-	return key in o;
-}
+/**
+ * Match matching groups in a regular expression.
+ */
+var MATCHING_GROUP_REGEXP = /\\.|\((?:\?<(.*?)>)?(?!\?)/g;
 
-function isNumber(x) {
-	if (typeof x === 'number') { return true; }
-	if ((/^0x[0-9a-f]+$/i).test(x)) { return true; }
-	return (/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/).test(x);
-}
+/**
+ * Normalize the given path string,
+ * returning a regular expression.
+ *
+ * An empty array should be passed,
+ * which will contain the placeholder
+ * key names. For example "/user/:id" will
+ * then contain ["id"].
+ *
+ * @param  {String|RegExp|Array} path
+ * @param  {Array} keys
+ * @param  {Object} options
+ * @return {RegExp}
+ * @api private
+ */
 
-function isConstructorOrProto(obj, key) {
-	return (key === 'constructor' && typeof obj[key] === 'function') || key === '__proto__';
-}
+function pathToRegexp(path, keys, options) {
+  options = options || {};
+  keys = keys || [];
+  var strict = options.strict;
+  var end = options.end !== false;
+  var flags = options.sensitive ? '' : 'i';
+  var lookahead = options.lookahead !== false;
+  var extraOffset = 0;
+  var keysOffset = keys.length;
+  var i = 0;
+  var name = 0;
+  var pos = 0;
+  var backtrack = '';
+  var m;
 
-module.exports = function (args, opts) {
-	if (!opts) { opts = {}; }
+  if (path instanceof RegExp) {
+    while (m = MATCHING_GROUP_REGEXP.exec(path.source)) {
+      if (m[0][0] === '\\') continue;
 
-	var flags = {
-		bools: {},
-		strings: {},
-		unknownFn: null,
-	};
+      keys.push({
+        name: m[1] || name++,
+        optional: false,
+        offset: m.index
+      });
+    }
 
-	if (typeof opts.unknown === 'function') {
-		flags.unknownFn = opts.unknown;
-	}
+    return path;
+  }
 
-	if (typeof opts.boolean === 'boolean' && opts.boolean) {
-		flags.allBools = true;
-	} else {
-		[].concat(opts.boolean).filter(Boolean).forEach(function (key) {
-			flags.bools[key] = true;
-		});
-	}
+  if (Array.isArray(path)) {
+    // Map array parts into regexps and return their source. We also pass
+    // the same keys and options instance into every generation to get
+    // consistent matching groups before we join the sources together.
+    path = path.map(function (value) {
+      return pathToRegexp(value, keys, options).source;
+    });
 
-	var aliases = {};
+    return new RegExp(path.join('|'), flags);
+  }
 
-	function aliasIsBoolean(key) {
-		return aliases[key].some(function (x) {
-			return flags.bools[x];
-		});
-	}
+  if (typeof path !== 'string') {
+    throw new TypeError('path must be a string, array of strings, or regular expression');
+  }
 
-	Object.keys(opts.alias || {}).forEach(function (key) {
-		aliases[key] = [].concat(opts.alias[key]);
-		aliases[key].forEach(function (x) {
-			aliases[x] = [key].concat(aliases[key].filter(function (y) {
-				return x !== y;
-			}));
-		});
-	});
+  path = path.replace(
+    /\\.|(\/)?(\.)?:(\w+)(\(.*?\))?(\*)?(\?)?|[.*]|\/\(/g,
+    function (match, slash, format, key, capture, star, optional, offset) {
+      if (match[0] === '\\') {
+        backtrack += match;
+        pos += 2;
+        return match;
+      }
 
-	[].concat(opts.string).filter(Boolean).forEach(function (key) {
-		flags.strings[key] = true;
-		if (aliases[key]) {
-			[].concat(aliases[key]).forEach(function (k) {
-				flags.strings[k] = true;
-			});
-		}
-	});
+      if (match === '.') {
+        backtrack += '\\.';
+        extraOffset += 1;
+        pos += 1;
+        return '\\.';
+      }
 
-	var defaults = opts.default || {};
+      if (slash || format) {
+        backtrack = '';
+      } else {
+        backtrack += path.slice(pos, offset);
+      }
 
-	var argv = { _: [] };
+      pos = offset + match.length;
 
-	function argDefined(key, arg) {
-		return (flags.allBools && (/^--[^=]+$/).test(arg))
-			|| flags.strings[key]
-			|| flags.bools[key]
-			|| aliases[key];
-	}
+      if (match === '*') {
+        backtrack = '';
+        extraOffset += 3;
+        return '(.*)';
+      }
 
-	function setKey(obj, keys, value) {
-		var o = obj;
-		for (var i = 0; i < keys.length - 1; i++) {
-			var key = keys[i];
-			if (isConstructorOrProto(o, key)) { return; }
-			if (o[key] === undefined) { o[key] = {}; }
-			if (
-				o[key] === Object.prototype
-				|| o[key] === Number.prototype
-				|| o[key] === String.prototype
-			) {
-				o[key] = {};
-			}
-			if (o[key] === Array.prototype) { o[key] = []; }
-			o = o[key];
-		}
+      if (match === '/(') {
+        backtrack += '/';
+        extraOffset += 2;
+        return '/(?:';
+      }
 
-		var lastKey = keys[keys.length - 1];
-		if (isConstructorOrProto(o, lastKey)) { return; }
-		if (
-			o === Object.prototype
-			|| o === Number.prototype
-			|| o === String.prototype
-		) {
-			o = {};
-		}
-		if (o === Array.prototype) { o = []; }
-		if (o[lastKey] === undefined || flags.bools[lastKey] || typeof o[lastKey] === 'boolean') {
-			o[lastKey] = value;
-		} else if (Array.isArray(o[lastKey])) {
-			o[lastKey].push(value);
-		} else {
-			o[lastKey] = [o[lastKey], value];
-		}
-	}
+      slash = slash || '';
+      format = format ? '\\.' : '';
+      optional = optional || '';
+      capture = capture ?
+        capture.replace(/\\.|\*/, function (m) { return m === '*' ? '(.*)' : m; }) :
+        (backtrack ? '((?:(?!/|' + backtrack + ').)+?)' : '([^/' + format + ']+?)');
 
-	function setArg(key, val, arg) {
-		if (arg && flags.unknownFn && !argDefined(key, arg)) {
-			if (flags.unknownFn(arg) === false) { return; }
-		}
+      keys.push({
+        name: key,
+        optional: !!optional,
+        offset: offset + extraOffset
+      });
 
-		var value = !flags.strings[key] && isNumber(val)
-			? Number(val)
-			: val;
-		setKey(argv, key.split('.'), value);
+      var result = '(?:'
+        + format + slash + capture
+        + (star ? '((?:[/' + format + '].+?)?)' : '')
+        + ')'
+        + optional;
 
-		(aliases[key] || []).forEach(function (x) {
-			setKey(argv, x.split('.'), value);
-		});
-	}
+      backtrack = '';
+      extraOffset += result.length - match.length;
 
-	Object.keys(flags.bools).forEach(function (key) {
-		setArg(key, defaults[key] === undefined ? false : defaults[key]);
-	});
+      return result;
+    });
 
-	var notFlags = [];
+  // This is a workaround for handling unnamed matching groups.
+  while (m = MATCHING_GROUP_REGEXP.exec(path)) {
+    if (m[0][0] === '\\') continue;
 
-	if (args.indexOf('--') !== -1) {
-		notFlags = args.slice(args.indexOf('--') + 1);
-		args = args.slice(0, args.indexOf('--'));
-	}
+    if (keysOffset + i === keys.length || keys[keysOffset + i].offset > m.index) {
+      keys.splice(keysOffset + i, 0, {
+        name: name++, // Unnamed matching groups must be consistently linear.
+        optional: false,
+        offset: m.index
+      });
+    }
 
-	for (var i = 0; i < args.length; i++) {
-		var arg = args[i];
-		var key;
-		var next;
+    i++;
+  }
 
-		if ((/^--.+=/).test(arg)) {
-			// Using [\s\S] instead of . because js doesn't support the
-			// 'dotall' regex modifier. See:
-			// http://stackoverflow.com/a/1068308/13216
-			var m = arg.match(/^--([^=]+)=([\s\S]*)$/);
-			key = m[1];
-			var value = m[2];
-			if (flags.bools[key]) {
-				value = value !== 'false';
-			}
-			setArg(key, value, arg);
-		} else if ((/^--no-.+/).test(arg)) {
-			key = arg.match(/^--no-(.+)/)[1];
-			setArg(key, false, arg);
-		} else if ((/^--.+/).test(arg)) {
-			key = arg.match(/^--(.+)/)[1];
-			next = args[i + 1];
-			if (
-				next !== undefined
-				&& !(/^(-|--)[^-]/).test(next)
-				&& !flags.bools[key]
-				&& !flags.allBools
-				&& (aliases[key] ? !aliasIsBoolean(key) : true)
-			) {
-				setArg(key, next, arg);
-				i += 1;
-			} else if ((/^(true|false)$/).test(next)) {
-				setArg(key, next === 'true', arg);
-				i += 1;
-			} else {
-				setArg(key, flags.strings[key] ? '' : true, arg);
-			}
-		} else if ((/^-[^-]+/).test(arg)) {
-			var letters = arg.slice(1, -1).split('');
+  path += strict ? '' : path[path.length - 1] === '/' ? '?' : '/?';
 
-			var broken = false;
-			for (var j = 0; j < letters.length; j++) {
-				next = arg.slice(j + 2);
+  // If the path is non-ending, match until the end or a slash.
+  if (end) {
+    path += '$';
+  } else if (path[path.length - 1] !== '/') {
+    path += lookahead ? '(?=/|$)' : '(?:/|$)';
+  }
 
-				if (next === '-') {
-					setArg(letters[j], next, arg);
-					continue;
-				}
-
-				if ((/[A-Za-z]/).test(letters[j]) && next[0] === '=') {
-					setArg(letters[j], next.slice(1), arg);
-					broken = true;
-					break;
-				}
-
-				if (
-					(/[A-Za-z]/).test(letters[j])
-					&& (/-?\d+(\.\d*)?(e-?\d+)?$/).test(next)
-				) {
-					setArg(letters[j], next, arg);
-					broken = true;
-					break;
-				}
-
-				if (letters[j + 1] && letters[j + 1].match(/\W/)) {
-					setArg(letters[j], arg.slice(j + 2), arg);
-					broken = true;
-					break;
-				} else {
-					setArg(letters[j], flags.strings[letters[j]] ? '' : true, arg);
-				}
-			}
-
-			key = arg.slice(-1)[0];
-			if (!broken && key !== '-') {
-				if (
-					args[i + 1]
-					&& !(/^(-|--)[^-]/).test(args[i + 1])
-					&& !flags.bools[key]
-					&& (aliases[key] ? !aliasIsBoolean(key) : true)
-				) {
-					setArg(key, args[i + 1], arg);
-					i += 1;
-				} else if (args[i + 1] && (/^(true|false)$/).test(args[i + 1])) {
-					setArg(key, args[i + 1] === 'true', arg);
-					i += 1;
-				} else {
-					setArg(key, flags.strings[key] ? '' : true, arg);
-				}
-			}
-		} else {
-			if (!flags.unknownFn || flags.unknownFn(arg) !== false) {
-				argv._.push(flags.strings._ || !isNumber(arg) ? arg : Number(arg));
-			}
-			if (opts.stopEarly) {
-				argv._.push.apply(argv._, args.slice(i + 1));
-				break;
-			}
-		}
-	}
-
-	Object.keys(defaults).forEach(function (k) {
-		if (!hasKey(argv, k.split('.'))) {
-			setKey(argv, k.split('.'), defaults[k]);
-
-			(aliases[k] || []).forEach(function (x) {
-				setKey(argv, x.split('.'), defaults[k]);
-			});
-		}
-	});
-
-	if (opts['--']) {
-		argv['--'] = notFlags.slice();
-	} else {
-		notFlags.forEach(function (k) {
-			argv._.push(k);
-		});
-	}
-
-	return argv;
+  return new RegExp('^' + path, flags);
 };

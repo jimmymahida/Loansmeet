@@ -1,121 +1,133 @@
-# minimist <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
+# parseurl
 
-[![github actions][actions-image]][actions-url]
-[![coverage][codecov-image]][codecov-url]
-[![License][license-image]][license-url]
-[![Downloads][downloads-image]][downloads-url]
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
+[![Node.js Version][node-image]][node-url]
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 
-[![npm badge][npm-badge-png]][package-url]
+Parse a URL with memoization.
 
-parse argument options
+## Install
 
-This module is the guts of optimist's argument parser without all the
-fanciful decoration.
+This is a [Node.js](https://nodejs.org/en/) module available through the
+[npm registry](https://www.npmjs.com/). Installation is done using the
+[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
-# example
-
-``` js
-var argv = require('minimist')(process.argv.slice(2));
-console.log(argv);
+```sh
+$ npm install parseurl
 ```
 
-```
-$ node example/parse.js -a beep -b boop
-{ _: [], a: 'beep', b: 'boop' }
-```
+## API
 
-```
-$ node example/parse.js -x 3 -y 4 -n5 -abc --beep=boop foo bar baz
-{
-	_: ['foo', 'bar', 'baz'],
-	x: 3,
-	y: 4,
-	n: 5,
-	a: true,
-	b: true,
-	c: true,
-	beep: 'boop'
-}
+```js
+var parseurl = require('parseurl')
 ```
 
-# security
+### parseurl(req)
 
-Previous versions had a prototype pollution bug that could cause privilege
-escalation in some circumstances when handling untrusted user input.
+Parse the URL of the given request object (looks at the `req.url` property)
+and return the result. The result is the same as `url.parse` in Node.js core.
+Calling this function multiple times on the same `req` where `req.url` does
+not change will return a cached parsed object, rather than parsing again.
 
-Please use version 1.2.6 or later:
+### parseurl.original(req)
 
-* https://security.snyk.io/vuln/SNYK-JS-MINIMIST-2429795 (version <=1.2.5)
-* https://snyk.io/vuln/SNYK-JS-MINIMIST-559764 (version <=1.2.3)
+Parse the original URL of the given request object and return the result.
+This works by trying to parse `req.originalUrl` if it is a string, otherwise
+parses `req.url`. The result is the same as `url.parse` in Node.js core.
+Calling this function multiple times on the same `req` where `req.originalUrl`
+does not change will return a cached parsed object, rather than parsing again.
 
-# methods
+## Benchmark
 
-``` js
-var parseArgs = require('minimist')
+```bash
+$ npm run-script bench
+
+> parseurl@1.3.3 bench nodejs-parseurl
+> node benchmark/index.js
+
+  http_parser@2.8.0
+  node@10.6.0
+  v8@6.7.288.46-node.13
+  uv@1.21.0
+  zlib@1.2.11
+  ares@1.14.0
+  modules@64
+  nghttp2@1.32.0
+  napi@3
+  openssl@1.1.0h
+  icu@61.1
+  unicode@10.0
+  cldr@33.0
+  tz@2018c
+
+> node benchmark/fullurl.js
+
+  Parsing URL "http://localhost:8888/foo/bar?user=tj&pet=fluffy"
+
+  4 tests completed.
+
+  fasturl            x 2,207,842 ops/sec ±3.76% (184 runs sampled)
+  nativeurl - legacy x   507,180 ops/sec ±0.82% (191 runs sampled)
+  nativeurl - whatwg x   290,044 ops/sec ±1.96% (189 runs sampled)
+  parseurl           x   488,907 ops/sec ±2.13% (192 runs sampled)
+
+> node benchmark/pathquery.js
+
+  Parsing URL "/foo/bar?user=tj&pet=fluffy"
+
+  4 tests completed.
+
+  fasturl            x 3,812,564 ops/sec ±3.15% (188 runs sampled)
+  nativeurl - legacy x 2,651,631 ops/sec ±1.68% (189 runs sampled)
+  nativeurl - whatwg x   161,837 ops/sec ±2.26% (189 runs sampled)
+  parseurl           x 4,166,338 ops/sec ±2.23% (184 runs sampled)
+
+> node benchmark/samerequest.js
+
+  Parsing URL "/foo/bar?user=tj&pet=fluffy" on same request object
+
+  4 tests completed.
+
+  fasturl            x  3,821,651 ops/sec ±2.42% (185 runs sampled)
+  nativeurl - legacy x  2,651,162 ops/sec ±1.90% (187 runs sampled)
+  nativeurl - whatwg x    175,166 ops/sec ±1.44% (188 runs sampled)
+  parseurl           x 14,912,606 ops/sec ±3.59% (183 runs sampled)
+
+> node benchmark/simplepath.js
+
+  Parsing URL "/foo/bar"
+
+  4 tests completed.
+
+  fasturl            x 12,421,765 ops/sec ±2.04% (191 runs sampled)
+  nativeurl - legacy x  7,546,036 ops/sec ±1.41% (188 runs sampled)
+  nativeurl - whatwg x    198,843 ops/sec ±1.83% (189 runs sampled)
+  parseurl           x 24,244,006 ops/sec ±0.51% (194 runs sampled)
+
+> node benchmark/slash.js
+
+  Parsing URL "/"
+
+  4 tests completed.
+
+  fasturl            x 17,159,456 ops/sec ±3.25% (188 runs sampled)
+  nativeurl - legacy x 11,635,097 ops/sec ±3.79% (184 runs sampled)
+  nativeurl - whatwg x    240,693 ops/sec ±0.83% (189 runs sampled)
+  parseurl           x 42,279,067 ops/sec ±0.55% (190 runs sampled)
 ```
 
-## var argv = parseArgs(args, opts={})
+## License
 
-Return an argument object `argv` populated with the array arguments from `args`.
+  [MIT](LICENSE)
 
-`argv._` contains all the arguments that didn't have an option associated with
-them.
-
-Numeric-looking arguments will be returned as numbers unless `opts.string` or
-`opts.boolean` is set for that argument name.
-
-Any arguments after `'--'` will not be parsed and will end up in `argv._`.
-
-options can be:
-
-* `opts.string` - a string or array of strings argument names to always treat as
-strings
-* `opts.boolean` - a boolean, string or array of strings to always treat as
-booleans. if `true` will treat all double hyphenated arguments without equal signs
-as boolean (e.g. affects `--foo`, not `-f` or `--foo=bar`)
-* `opts.alias` - an object mapping string names to strings or arrays of string
-argument names to use as aliases
-* `opts.default` - an object mapping string argument names to default values
-* `opts.stopEarly` - when true, populate `argv._` with everything after the
-first non-option
-* `opts['--']` - when true, populate `argv._` with everything before the `--`
-and `argv['--']` with everything after the `--`. Here's an example:
-
-  ```
-  > require('./')('one two three -- four five --six'.split(' '), { '--': true })
-  {
-    _: ['one', 'two', 'three'],
-    '--': ['four', 'five', '--six']
-  }
-  ```
-
-  Note that with `opts['--']` set, parsing for arguments still stops after the
-  `--`.
-
-* `opts.unknown` - a function which is invoked with a command line parameter not
-defined in the `opts` configuration object. If the function returns `false`, the
-unknown option is not added to `argv`.
-
-# install
-
-With [npm](https://npmjs.org) do:
-
-```
-npm install minimist
-```
-
-# license
-
-MIT
-
-[package-url]: https://npmjs.org/package/minimist
-[npm-version-svg]: https://versionbadg.es/minimistjs/minimist.svg
-[npm-badge-png]: https://nodei.co/npm/minimist.png?downloads=true&stars=true
-[license-image]: https://img.shields.io/npm/l/minimist.svg
-[license-url]: LICENSE
-[downloads-image]: https://img.shields.io/npm/dm/minimist.svg
-[downloads-url]: https://npm-stat.com/charts.html?package=minimist
-[codecov-image]: https://codecov.io/gh/minimistjs/minimist/branch/main/graphs/badge.svg
-[codecov-url]: https://app.codecov.io/gh/minimistjs/minimist/
-[actions-image]: https://img.shields.io/endpoint?url=https://github-actions-badge-u3jn4tfpocch.runkit.sh/minimistjs/minimist
-[actions-url]: https://github.com/minimistjs/minimist/actions
+[coveralls-image]: https://badgen.net/coveralls/c/github/pillarjs/parseurl/master
+[coveralls-url]: https://coveralls.io/r/pillarjs/parseurl?branch=master
+[node-image]: https://badgen.net/npm/node/parseurl
+[node-url]: https://nodejs.org/en/download
+[npm-downloads-image]: https://badgen.net/npm/dm/parseurl
+[npm-url]: https://npmjs.org/package/parseurl
+[npm-version-image]: https://badgen.net/npm/v/parseurl
+[travis-image]: https://badgen.net/travis/pillarjs/parseurl/master
+[travis-url]: https://travis-ci.org/pillarjs/parseurl
